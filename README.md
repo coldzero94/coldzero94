@@ -34,7 +34,7 @@
 
 <div align="center">
   
-![coldzero94's GitHub stats](https://github-readme-stats.vercel.app/api?username=ChanyoungLee&show_icons=true&theme=great-gatsby)
+![coldzero94's GitHub stats](https://github-readme-stats.vercel.app/api?username=coldzero94&show_icons=true&theme=great-gatsby)
 
 <h3 align="center">
   🌱 Language Share 🌱
