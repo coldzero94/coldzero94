@@ -1,4 +1,4 @@
-![header](https://capsule-render.vercel.app/api?type=waving&color=auto&height=300&section=header&text=MinHyuk%20Ko&fontSize=90&animation=fadeIn&fontAlignY=38&desc=✨Backend%20Developer✨&descAlignY=55&descAlign=65)
+![header](https://capsule-render.vercel.app/api?type=waving&color=auto&height=300&section=header&text=Chanyoung%20Lee&fontSize=90&animation=fadeIn&fontAlignY=38&desc=✨Backend%20Developer✨&descAlignY=55&descAlign=65)
 <h3 align="center">
     🛠 Tech Stack 🛠
 </h3>
@@ -34,7 +34,7 @@
 
 <div align="center">
   
-![coldzero94's GitHub stats](https://github-readme-stats.vercel.app/api?username=MinhyukK0&show_icons=true&theme=github_dark)
+![coldzero94's GitHub stats](https://github-readme-stats.vercel.app/api?username=ChanyoungLee&show_icons=true&theme=github_dark)
 
 <h3 align="center">
   🌱 Language Share 🌱
