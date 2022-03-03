@@ -34,7 +34,7 @@
 
 <div align="center">
   
-![coldzero94's GitHub stats](https://github-readme-stats.vercel.app/api?username=ChanyoungLee&show_icons=true&theme=github_dark)
+![coldzero94's GitHub stats](https://github-readme-stats.vercel.app/api?username=ChanyoungLee&show_icons=true&theme=great-gatsby)
 
 <h3 align="center">
   🌱 Language Share 🌱
@@ -44,9 +44,6 @@
 [![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=coldzero94&layout=compact&theme=github_dark&langs_count=5)](https://github.com/anuraghazra/github-readme-stats)
 
 
-### Hi there 👋
-
-![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=coldzero94&show_icons=true&theme=great-gatsby)
 
 <!--
 **coldzero94/coldzero94** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
