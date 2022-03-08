@@ -21,14 +21,6 @@
 </div>
 
 <h3 align="center">
- 🙇🏻 About Me 🙇🏻
-</h3>
-<div align="center">
-  <a href="https://velog.io/@coldzero"><img src="https://img.shields.io/badge/Velog-00B388?style=flat&logo=Vimeo&logoColor=white&link=https://velog.io/@coldzero"/></a>
-
-</div>
-
-<h3 align="center">
  ⚡ GitHub Stats ⚡
 </h3>
 
