@@ -1,4 +1,6 @@
-![header](https://capsule-render.vercel.app/api?type=waving&color=auto&height=300&section=header&text=Chanyoung%20Lee&fontSize=90&animation=fadeIn&fontAlignY=38&desc=✨Backend%20Developer✨&descAlignY=55&descAlign=65)
+
+# 이찬영 <i>Chanyoung Lee</i>
+
 <h3 align="center">
     🛠 Tech Stack 🛠
 </h3>
