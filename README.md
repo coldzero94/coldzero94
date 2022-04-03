@@ -1,5 +1,5 @@
 
-<h3 align="center"># 이찬영 </h3>
+<h3 align="center"> 이찬영 </h3>
 
 <h3 align="center">
     🛠 Tech Stack 🛠
