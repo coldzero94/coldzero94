@@ -40,7 +40,7 @@ GRID_LEFT = PAD_X
 GRID_TOP = PAD_TOP
 GRID_RIGHT = PAD_X + COLS * CELL + (COLS - 1) * GAP
 GRID_BOTTOM = PAD_TOP + ROWS * CELL + (ROWS - 1) * GAP
-RUN_BOUNCE_Y = (0, -1, 0, 1)
+RUN_BOUNCE_Y = (0,)
 METEOR_OFFSETS = ((0, 0), (1, -1), (2, -1), (1, 0), (0, 1), (-1, 1), (0, 0), (1, -1))
 ROAR_ALPHA = [0.35, 1.0, 0.5, 1.0, 0.35, 0.85, 0.45, 0.95]
 GIF_FRAME_COUNT = 20
@@ -96,57 +96,51 @@ THEMES = {
 
 
 DINO_BODY_PATTERN = [
-    "...........DDD...............",
-    ".........DDDDDDD.............",
-    "......DDDDDDDDDDDDDD.........",
-    "....DDDDDDDDDDDDDDDDDDD......",
-    "...DDDDDDDDDD..DDDDDD........",
-    ".....DDD...DD....DD..........",
-    "..DDDDD....DD....DD..DDD.....",
+    "..DDD............",
+    ".DDDDDD..........",
+    "DDDDDDDDDD.......",
+    ".DDDDD.DDDD......",
+    "...DDD..DDD......",
+    "..DDD....DD......",
+    ".DD......DD......",
 ]
 
 DINO_SPIKE_PATTERN = [
-    ".......S.S.S.S...............",
-    ".....S.......S...............",
-    "...S...........S.............",
-    ".............................",
-    ".............................",
-    ".............................",
-    ".............................",
+    ".S.S.S...........",
+    "..S..S...........",
+    "...S.............",
+    ".................",
+    ".................",
+    ".................",
+    ".................",
 ]
 
 DINO_LEG_A_PATTERN = [
-    ".............................",
-    ".............................",
-    ".............................",
-    ".............................",
-    ".............................",
-    ".................A...A.......",
-    "................AA..AA.......",
+    ".................",
+    ".................",
+    ".................",
+    ".................",
+    ".................",
+    "...A...A.........",
+    "..AA..AA.........",
 ]
 
 DINO_LEG_B_PATTERN = [
-    ".............................",
-    ".............................",
-    ".............................",
-    ".............................",
-    ".............................",
-    "................A.....A......",
-    "...............AA....AA......",
+    ".................",
+    ".................",
+    ".................",
+    ".................",
+    ".................",
+    "..A.....A........",
+    ".AA....AA........",
 ]
 
 ROAR_PATTERN = [
-    "....RRR........",
-    "..RRRRRRR......",
-    "RRRRRRRRRRRR...",
-    "..RRRRRRR......",
-    "....RRR........",
-]
-
-METEOR_PATTERN = [
-    "..M....",
-    ".MMM...",
-    "..M..M.",
+    "...RRR......",
+    ".RRRRRR.....",
+    "RRRRRRRRR...",
+    ".RRRRRR.....",
+    "...RRR......",
 ]
 
 CACTUS_PATTERN = [
@@ -158,12 +152,6 @@ CACTUS_PATTERN = [
     ".C.C.",
     "CCCCC",
 ]
-
-TRAIL_PATTERN = [
-    "T..T..T..",
-    ".T..T..T.",
-]
-
 
 def fetch_contributions(user_name: str, token: str) -> list[list[int]]:
     query = """
@@ -250,15 +238,13 @@ def stamp(
 def build_scene() -> dict[str, set[tuple[int, int]]]:
     scene: dict[str, set[tuple[int, int]]] = {
         "ground": {(x, ROWS - 1) for x in range(COLS)},
-        "meteor": stamp(METEOR_PATTERN, 6, 0, "M") | stamp(METEOR_PATTERN, 1, 1, "M"),
-        "cactus": stamp(CACTUS_PATTERN, 3, 0, "C") | stamp(CACTUS_PATTERN, 12, 0, "C"),
-        "trail": stamp(TRAIL_PATTERN, 18, 4, "T"),
-        "dino": stamp(DINO_BODY_PATTERN, 20, 0, "D"),
-        "spike": stamp(DINO_SPIKE_PATTERN, 19, 0, "S"),
-        "leg_a": stamp(DINO_LEG_A_PATTERN, 20, 0, "A"),
-        "leg_b": stamp(DINO_LEG_B_PATTERN, 20, 0, "A"),
-        "roar": stamp(ROAR_PATTERN, 38, 1, "R"),
-        "eye": {(46, 2)},
+        "cactus": stamp(CACTUS_PATTERN, 4, 0, "C"),
+        "dino": stamp(DINO_BODY_PATTERN, 18, 0, "D"),
+        "spike": stamp(DINO_SPIKE_PATTERN, 18, 0, "S"),
+        "leg_a": stamp(DINO_LEG_A_PATTERN, 18, 0, "A"),
+        "leg_b": stamp(DINO_LEG_B_PATTERN, 18, 0, "A"),
+        "roar": stamp(ROAR_PATTERN, 30, 1, "R"),
+        "eye": {(27, 2)},
     }
     return scene
 
@@ -369,7 +355,7 @@ def build_gif_frames(
     frames: list["Image.Image"] = []
 
     resampling = getattr(Image, "Resampling", Image).LANCZOS
-    runner_parts = ("dino", "spike", "eye", "leg_a", "leg_b", "roar")
+    runner_parts = ("dino", "spike", "eye", "leg_a", "leg_b")
     runner_cells = [
         cell
         for part_name in runner_parts
@@ -538,8 +524,6 @@ def build_svg(grid: list[list[int]], theme_key: str) -> str:
     empty_cells: list[str] = []
     for y in range(ROWS):
         for x in range(COLS):
-            if (x, y) in occupied:
-                continue
             x_pos = PAD_X + x * (CELL + GAP)
             y_pos = PAD_TOP + y * (CELL + GAP)
             empty_cells.append(
@@ -558,7 +542,7 @@ def build_svg(grid: list[list[int]], theme_key: str) -> str:
             cells_svg.append(
                 f'<rect x="{x_pos}" y="{y_pos}" width="{CELL}" height="{CELL}" rx="2" fill="{color}" />'
             )
-            if level >= 3 and part_key in {"dino", "spike", "roar", "meteor", "eye", "leg_a", "leg_b"}:
+            if level >= 3 and part_key in {"dino", "spike", "roar", "eye", "leg_a", "leg_b"}:
                 cells_svg.append(
                     f'<rect x="{x_pos}" y="{y_pos}" width="{CELL}" height="{CELL}" rx="2" '
                     f'fill="{color}" opacity="0.34" filter="url(#glow-{theme_key})" />'
@@ -569,19 +553,12 @@ def build_svg(grid: list[list[int]], theme_key: str) -> str:
         lines.append(f"  {cell}")
 
     lines.append('  <g id="terrain-layer">')
-    for part in ("ground", "cactus", "trail"):
+    for part in ("ground", "cactus"):
         for rect in part_rects.get(part, []):
             lines.append(f"    {rect}")
     lines.append("  </g>")
 
-    lines.append('  <g id="meteor-layer">')
-    for rect in part_rects.get("meteor", []):
-        lines.append(f"    {rect}")
-    lines.append(
-        '    <animateTransform attributeName="transform" type="translate" '
-        'values="0 0; 2 -1; 4 -1; 1 0; 0 1; -1 1; 0 0" dur="1.7s" repeatCount="indefinite" />'
-    )
-    lines.append("  </g>")
+    run_values = "-20 0; -8 0; 4 0; 16 0; 28 0; 40 0; 52 0; -20 0"
 
     lines.append('  <g id="dino-runner">')
     for part in ("dino", "spike", "eye"):
@@ -589,30 +566,27 @@ def build_svg(grid: list[list[int]], theme_key: str) -> str:
             lines.append(f"    {rect}")
     lines.append(
         '    <animateTransform attributeName="transform" type="translate" '
-        'values="-28 0; -18 -1; -8 0; 4 1; 16 0; 28 -1; 40 0; 52 1; -28 0" '
-        'dur="2.2s" repeatCount="indefinite" />'
+        f'values="{run_values}" dur="2.4s" repeatCount="indefinite" />'
     )
     lines.append("  </g>")
 
     lines.append('  <g id="leg-a-layer">')
     for rect in part_rects.get("leg_a", []):
         lines.append(f"    {rect}")
-    lines.append('    <animate attributeName="opacity" values="1;0;1" dur="0.39s" repeatCount="indefinite" />')
+    lines.append('    <animate attributeName="opacity" values="1;0;1" dur="0.48s" repeatCount="indefinite" />')
     lines.append(
         '    <animateTransform attributeName="transform" type="translate" '
-        'values="-28 0; -18 -1; -8 0; 4 1; 16 0; 28 -1; 40 0; 52 1; -28 0" '
-        'dur="2.2s" repeatCount="indefinite" />'
+        f'values="{run_values}" dur="2.4s" repeatCount="indefinite" />'
     )
     lines.append("  </g>")
 
     lines.append('  <g id="leg-b-layer" opacity="0">')
     for rect in part_rects.get("leg_b", []):
         lines.append(f"    {rect}")
-    lines.append('    <animate attributeName="opacity" values="0;1;0" dur="0.39s" repeatCount="indefinite" />')
+    lines.append('    <animate attributeName="opacity" values="0;1;0" dur="0.48s" repeatCount="indefinite" />')
     lines.append(
         '    <animateTransform attributeName="transform" type="translate" '
-        'values="-28 0; -18 -1; -8 0; 4 1; 16 0; 28 -1; 40 0; 52 1; -28 0" '
-        'dur="2.2s" repeatCount="indefinite" />'
+        f'values="{run_values}" dur="2.4s" repeatCount="indefinite" />'
     )
     lines.append("  </g>")
 
@@ -620,8 +594,12 @@ def build_svg(grid: list[list[int]], theme_key: str) -> str:
     for rect in part_rects.get("roar", []):
         lines.append(f"    {rect}")
     lines.append(
-        '    <animate attributeName="opacity" values="0.35;1;0.5;1;0.35" '
-        'dur="0.74s" repeatCount="indefinite" />'
+        '    <animate attributeName="opacity" values="0.15;0.9;0.2;0.9;0.15" '
+        'dur="0.95s" repeatCount="indefinite" />'
+    )
+    lines.append(
+        '    <animateTransform attributeName="transform" type="translate" '
+        f'values="{run_values}" dur="2.4s" repeatCount="indefinite" />'
     )
     lines.append("  </g>")
 
@@ -635,7 +613,7 @@ def build_svg(grid: list[list[int]], theme_key: str) -> str:
     )
     lines.append(
         f'  <text x="{WIDTH - 248}" y="56" fill="{theme["subtitle"]}" font-size="12" '
-        'font-family="monospace">BREAKING LIMITS, SHATTERING OBSTACLES</text>'
+        'font-family="monospace">SMALL CUTE DINO LOOP</text>'
     )
 
     generated_at = dt.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
