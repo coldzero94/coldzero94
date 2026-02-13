@@ -29,50 +29,97 @@ HEIGHT = PAD_TOP + ROWS * CELL + (ROWS - 1) * GAP + PAD_BOTTOM
 
 THEMES = {
     "light": {
-        "background": "#f7fbff",
-        "panel": "#ecf6ff",
+        "background": "#f6fbff",
+        "panel": "#edf7ff",
         "title": "#0f172a",
-        "subtitle": "#1e3a8a",
+        "subtitle": "#155e75",
         "meta": "#334155",
         "empty": "#dbe7f4",
-        "empty_opacity": "0.65",
-        "levels": ["#d9ffe9", "#8af0c7", "#3fd5a0", "#10b981", "#047857"],
-        "ground": "#7c5d2b",
-        "accent": "#0891b2",
+        "empty_opacity": "0.64",
+        "ground": "#8a6b34",
+        "accent": "#0ea5e9",
+        "palettes": {
+            "dino": ["#dbffe9", "#8df0c8", "#43d9a4", "#12b981", "#047857"],
+            "spike": ["#ffeecb", "#ffd27e", "#ffb347", "#f59e0b", "#b45309"],
+            "roar": ["#e3f5ff", "#bae6fd", "#7dd3fc", "#38bdf8", "#0284c7"],
+            "meteor": ["#ffe7cc", "#ffcc8a", "#ff9f4a", "#f97316", "#c2410c"],
+            "cactus": ["#e3fbe8", "#b9f6ca", "#74e59f", "#22c55e", "#15803d"],
+            "ground": ["#eadfc4", "#dbc59a", "#c7a66d", "#a9843f", "#7c5d2b"],
+            "eye": ["#ffffff", "#fde68a", "#facc15", "#eab308", "#ca8a04"],
+            "trail": ["#efe9ff", "#ddd1ff", "#bca7ff", "#9876ff", "#6d4aff"],
+        },
     },
     "dark": {
         "background": "#06131b",
-        "panel": "#0d2230",
+        "panel": "#0b2230",
         "title": "#d8fff0",
         "subtitle": "#7cf0c3",
         "meta": "#b7d4e6",
         "empty": "#173348",
-        "empty_opacity": "0.7",
-        "levels": ["#1e4c3a", "#1f9d6a", "#35c78d", "#67f0b8", "#c5ffe8"],
+        "empty_opacity": "0.70",
         "ground": "#d3a650",
         "accent": "#40d6ff",
+        "palettes": {
+            "dino": ["#1e4c3a", "#1f9d6a", "#35c78d", "#67f0b8", "#c5ffe8"],
+            "spike": ["#4a3515", "#84560f", "#c47f14", "#f59e0b", "#ffd58a"],
+            "roar": ["#153042", "#1f536d", "#1e90b8", "#22b7f5", "#97e8ff"],
+            "meteor": ["#422816", "#844317", "#c55f19", "#f97316", "#ffc085"],
+            "cactus": ["#123924", "#175d35", "#1f8d4a", "#31c76c", "#94ffc3"],
+            "ground": ["#3f331f", "#6b542a", "#8f6f35", "#ba9143", "#e0b760"],
+            "eye": ["#eefcff", "#d9fbff", "#baf9ff", "#9cf1ff", "#68e6ff"],
+            "trail": ["#231b45", "#3d2c79", "#5e40bb", "#7c58e4", "#b89fff"],
+        },
     },
 }
 
 
-DINO_PATTERN = [
-    ".......####...................",
-    ".....##########...............",
-    "...###############............",
-    "..###################.........",
-    "...###########..#####.........",
-    ".....###...##....##...........",
-    "..#####....##....##..###......",
+DINO_BODY_PATTERN = [
+    "...........DDD...............",
+    ".........DDDDDDD.............",
+    "......DDDDDDDDDDDDDD.........",
+    "....DDDDDDDDDDDDDDDDDDD......",
+    "...DDDDDDDDDD..DDDDDD........",
+    ".....DDD...DD....DD..........",
+    "..DDDDD....DD....DD..DDD.....",
+]
+
+DINO_SPIKE_PATTERN = [
+    ".......S.S.S.S...............",
+    ".....S.......S...............",
+    "...S...........S.............",
+    ".............................",
+    ".............................",
+    ".............................",
+    ".............................",
+]
+
+ROAR_PATTERN = [
+    "....RRR........",
+    "..RRRRRRR......",
+    "RRRRRRRRRRRR...",
+    "..RRRRRRR......",
+    "....RRR........",
+]
+
+METEOR_PATTERN = [
+    "..M....",
+    ".MMM...",
+    "..M..M.",
 ]
 
 CACTUS_PATTERN = [
-    "..#..",
-    ".###.",
-    "..#..",
-    ".###.",
-    ".#.#.",
-    ".#.#.",
-    "#####",
+    "..C..",
+    ".CCC.",
+    "..C..",
+    ".CCC.",
+    ".C.C.",
+    ".C.C.",
+    "CCCCC",
+]
+
+TRAIL_PATTERN = [
+    "T..T..T..",
+    ".T..T..T.",
 ]
 
 
@@ -140,37 +187,49 @@ def fallback_contributions() -> list[list[int]]:
     return grid
 
 
-def build_mask() -> set[tuple[int, int]]:
-    mask: set[tuple[int, int]] = set()
-
-    dino_offset_x = 23
-    dino_offset_y = 0
-    for dy, row in enumerate(DINO_PATTERN):
+def stamp(
+    scene: dict[tuple[int, int], str],
+    pattern: list[str],
+    offset_x: int,
+    offset_y: int,
+    part_key: str,
+    token: str,
+) -> None:
+    for dy, row in enumerate(pattern):
         for dx, ch in enumerate(row):
-            if ch == "#":
-                x = dino_offset_x + dx
-                y = dino_offset_y + dy
-                if 0 <= x < COLS and 0 <= y < ROWS:
-                    mask.add((x, y))
+            if ch != token:
+                continue
+            x = offset_x + dx
+            y = offset_y + dy
+            if 0 <= x < COLS and 0 <= y < ROWS:
+                scene[(x, y)] = part_key
 
-    cactus_offsets = [4, 13]
-    for offset_x in cactus_offsets:
-        for dy, row in enumerate(CACTUS_PATTERN):
-            for dx, ch in enumerate(row):
-                if ch == "#":
-                    x = offset_x + dx
-                    y = dy
-                    if 0 <= x < COLS and 0 <= y < ROWS:
-                        mask.add((x, y))
+
+def build_scene() -> dict[tuple[int, int], str]:
+    scene: dict[tuple[int, int], str] = {}
 
     for x in range(COLS):
-        mask.add((x, ROWS - 1))
+        scene[(x, ROWS - 1)] = "ground"
 
-    return mask
+    stamp(scene, METEOR_PATTERN, 6, 0, "meteor", "M")
+    stamp(scene, METEOR_PATTERN, 1, 1, "meteor", "M")
+
+    stamp(scene, CACTUS_PATTERN, 3, 0, "cactus", "C")
+    stamp(scene, CACTUS_PATTERN, 12, 0, "cactus", "C")
+
+    stamp(scene, TRAIL_PATTERN, 18, 4, "trail", "T")
+
+    stamp(scene, DINO_BODY_PATTERN, 20, 0, "dino", "D")
+    stamp(scene, DINO_SPIKE_PATTERN, 19, 0, "spike", "S")
+    stamp(scene, ROAR_PATTERN, 38, 1, "roar", "R")
+
+    scene[(46, 2)] = "eye"
+
+    return scene
 
 
-def thresholds_for(mask_counts: list[int]) -> tuple[int, int, int, int]:
-    positives = sorted([count for count in mask_counts if count > 0])
+def thresholds_for(scene_counts: list[int]) -> tuple[int, int, int, int]:
+    positives = sorted([count for count in scene_counts if count > 0])
     if not positives:
         return (1, 2, 3, 4)
 
@@ -195,11 +254,17 @@ def level_for(count: int, t1: int, t2: int, t3: int, t4: int) -> int:
     return 4
 
 
+def color_for(theme: dict, part_key: str, level: int) -> str:
+    palettes = theme["palettes"]
+    palette = palettes.get(part_key, palettes["dino"])
+    return palette[level]
+
+
 def build_svg(grid: list[list[int]], theme_key: str) -> str:
     theme = THEMES[theme_key]
-    mask = build_mask()
-    mask_counts = [grid[y][x] for (x, y) in mask]
-    t1, t2, t3, t4 = thresholds_for(mask_counts)
+    scene = build_scene()
+    scene_counts = [grid[y][x] for (x, y) in scene]
+    t1, t2, t3, t4 = thresholds_for(scene_counts)
 
     lines: list[str] = []
     lines.append(
@@ -216,18 +281,18 @@ def build_svg(grid: list[list[int]], theme_key: str) -> str:
     lines.append(f'      <stop offset="1" stop-color="{theme["panel"]}"/>')
     lines.append("    </linearGradient>")
     lines.append(f'    <filter id="glow-{theme_key}" x="-50%" y="-50%" width="200%" height="200%">')
-    lines.append("      <feGaussianBlur stdDeviation=\"3\"/>")
+    lines.append('      <feGaussianBlur stdDeviation="3"/>')
     lines.append("    </filter>")
     lines.append("  </defs>")
 
     lines.append(f'  <rect width="{WIDTH}" height="{HEIGHT}" rx="14" fill="url(#bg-{theme_key})"/>')
     lines.append(
         f'  <text x="{PAD_X}" y="36" fill="{theme["title"]}" font-size="22" '
-        'font-family="monospace" font-weight="700">Dino Contribution Grid</text>'
+        'font-family="monospace" font-weight="700">Dino Contribution: ROAR Edition</text>'
     )
     lines.append(
         f'  <text x="{PAD_X}" y="56" fill="{theme["subtitle"]}" font-size="13" '
-        'font-family="monospace">custom engine by coldzero94</text>'
+        'font-family="monospace">custom silhouette engine by coldzero94</text>'
     )
 
     for x in range(COLS):
@@ -243,16 +308,17 @@ def build_svg(grid: list[list[int]], theme_key: str) -> str:
             x_pos = PAD_X + x * (CELL + GAP)
             y_pos = PAD_TOP + y * (CELL + GAP)
             count = grid[y][x]
-            if (x, y) in mask:
+            part_key = scene.get((x, y))
+            if part_key:
                 level = level_for(count, t1, t2, t3, t4)
-                color = theme["levels"][level]
+                color = color_for(theme, part_key, level)
                 lines.append(
                     f'  <rect x="{x_pos}" y="{y_pos}" width="{CELL}" height="{CELL}" rx="2" fill="{color}" />'
                 )
-                if level >= 3:
+                if level >= 3 and part_key in {"dino", "spike", "roar", "meteor", "eye"}:
                     lines.append(
                         f'  <rect x="{x_pos}" y="{y_pos}" width="{CELL}" height="{CELL}" rx="2" '
-                        f'fill="{color}" opacity="0.32" filter="url(#glow-{theme_key})" />'
+                        f'fill="{color}" opacity="0.34" filter="url(#glow-{theme_key})" />'
                     )
             else:
                 lines.append(
@@ -267,6 +333,10 @@ def build_svg(grid: list[list[int]], theme_key: str) -> str:
     )
     lines.append(
         f'  <circle cx="{WIDTH - PAD_X - 8}" cy="{PAD_TOP - 8}" r="5" fill="{theme["accent"]}" opacity="0.9" />'
+    )
+    lines.append(
+        f'  <text x="{WIDTH - 248}" y="56" fill="{theme["subtitle"]}" font-size="12" '
+        'font-family="monospace">OPEN-MOUTH T-REX + METEOR TRAIL</text>'
     )
 
     generated_at = dt.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
