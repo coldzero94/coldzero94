@@ -51,7 +51,7 @@ _Animated Dino Run Loop (SVG vector animation, snake-style smooth playback)_
 
 ## 📊 Language Stats
 
-<div align="center">
+<div align="left">
 
 **Total Code Across All Repositories: 36.5 MB** _(Auto-updated: 2026-02-13)_
 
