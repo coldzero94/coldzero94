@@ -1,0 +1,57 @@
+<svg width="1280" height="320" viewBox="0 0 1280 320" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dino Nebula Banner">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1280" y2="320" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#03111A"/>
+      <stop offset="0.45" stop-color="#0A2A2F"/>
+      <stop offset="1" stop-color="#201A05"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0" y1="0" x2="1280" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7CF0C3"/>
+      <stop offset="0.55" stop-color="#40D6FF"/>
+      <stop offset="1" stop-color="#FFC857"/>
+    </linearGradient>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="6"/>
+    </filter>
+  </defs>
+
+  <rect width="1280" height="320" fill="url(#bg)"/>
+
+  <g opacity="0.85">
+    <circle cx="120" cy="66" r="2" fill="#D2FFF0"/>
+    <circle cx="190" cy="120" r="1.5" fill="#FFFFFF"/>
+    <circle cx="280" cy="48" r="2" fill="#BAF5FF"/>
+    <circle cx="420" cy="88" r="1.5" fill="#FFFFFF"/>
+    <circle cx="560" cy="60" r="2" fill="#D7FFD6"/>
+    <circle cx="700" cy="100" r="1.5" fill="#FFFFFF"/>
+    <circle cx="840" cy="72" r="2" fill="#E4F6FF"/>
+    <circle cx="980" cy="46" r="1.5" fill="#FFFFFF"/>
+    <circle cx="1090" cy="88" r="2" fill="#FFF2B0"/>
+    <circle cx="1180" cy="62" r="1.5" fill="#FFFFFF"/>
+  </g>
+
+  <g filter="url(#soft)" opacity="0.5">
+    <path d="M0 260C130 215 260 285 400 250C540 215 640 280 790 246C940 212 1080 276 1280 232V320H0V260Z" fill="#35A06F"/>
+    <path d="M0 280C170 246 320 306 470 272C620 238 760 294 930 258C1100 222 1180 274 1280 258V320H0V280Z" fill="#776029"/>
+  </g>
+
+  <g transform="translate(820 142)">
+    <path d="M0 86H28V74H40V56H66V50H84V40H100V20H116V0H132V26H120V46H110V64H96V84H84V96H62V106H44V120H20V134H0V120H12V104H24V90H0V86Z" fill="#84F8C6"/>
+    <rect x="114" y="8" width="6" height="6" fill="#03111A"/>
+    <rect x="110" y="8" width="2" height="2" fill="#FFFFFF"/>
+    <rect x="14" y="108" width="12" height="28" fill="#84F8C6"/>
+    <rect x="44" y="108" width="12" height="28" fill="#84F8C6"/>
+    <rect x="8" y="118" width="20" height="6" fill="#5EE8B2"/>
+    <rect x="38" y="118" width="20" height="6" fill="#5EE8B2"/>
+  </g>
+
+  <g stroke="url(#glow)" stroke-width="3" fill="none" opacity="0.95">
+    <path d="M72 226H404"/>
+    <path d="M465 226H735"/>
+    <path d="M980 226H1210"/>
+  </g>
+
+  <text x="70" y="138" fill="url(#glow)" font-size="54" font-family="monospace" font-weight="700">DINO MODE: ACTIVE</text>
+  <text x="72" y="176" fill="#D4FCEB" font-size="24" font-family="monospace">RAG • FASTAPI • NEXT.JS • VECTOR SEARCH</text>
+  <text x="72" y="258" fill="#FFE9A9" font-size="20" font-family="monospace">Coldzero Lab: shipping AI products with boss-level consistency</text>
+</svg>

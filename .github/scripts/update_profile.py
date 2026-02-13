@@ -157,7 +157,7 @@ def update_readme_simple(lang_stats: Dict):
 
     # Update 1: Total MB line
     content = re.sub(
-        r'\*\*Total Code Across All Repositories: [\d.]+ MB\*\*',
+        r'\*\*Total Code Across All Repositories: [\d.]+ MB\*\*(?: _\(Auto-updated: [0-9-]+\)_)?',
         f'**Total Code Across All Repositories: {total_mb} MB** _(Auto-updated: {datetime.now().strftime("%Y-%m-%d")})_',
         content
     )
