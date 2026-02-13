@@ -33,11 +33,11 @@ Building intelligent solutions with **AI, Vector Search, and LLMs**
 ```python
 # Real data from all my repositories
 languages = {
-    'Python':      22.3,  # 60.1%
-    'TypeScript':  10.4,  # 28.0%
-    'JavaScript':   3.2,  # 8.5%
-    'Go':           0.5,  # 1.5%
-    'Others':       0.7   # 1.9%
+    'Python':  21.9,  # 59.9%
+    'TypeScript':  10.2,  # 27.8%
+    'JavaScript':   3.2,  #  8.7%
+    'Go':   0.5,  #  1.5%
+    'Java':   0.2,  #  0.6%
 }
 ```
 
