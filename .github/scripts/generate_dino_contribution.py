@@ -558,7 +558,7 @@ def build_svg(grid: list[list[int]], theme_key: str) -> str:
             lines.append(f"    {rect}")
     lines.append("  </g>")
 
-    run_values = "-36 0; -24 0; -12 0; 0 0; 12 0; 24 0; 36 0; 48 0; 60 0; 72 0"
+    run_values = "72 0; 60 0; 48 0; 36 0; 24 0; 12 0; 0 0; -12 0; -24 0; -36 0"
     runner_dur = "3.4s"
     leg_dur = "0.42s"
 
@@ -608,7 +608,7 @@ def build_svg(grid: list[list[int]], theme_key: str) -> str:
     )
     lines.append(
         f'  <text x="{WIDTH - 248}" y="56" fill="{theme["subtitle"]}" font-size="12" '
-        'font-family="monospace">RUN OUT RIGHT, NEXT DINO ENTERS LEFT</text>'
+        'font-family="monospace">RUN OUT LEFT, NEXT DINO ENTERS RIGHT</text>'
     )
 
     generated_at = dt.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
