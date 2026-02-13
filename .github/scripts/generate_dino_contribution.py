@@ -34,6 +34,10 @@ PAD_TOP = 78
 PAD_BOTTOM = 28
 WIDTH = PAD_X * 2 + COLS * CELL + (COLS - 1) * GAP
 HEIGHT = PAD_TOP + ROWS * CELL + (ROWS - 1) * GAP + PAD_BOTTOM
+GRID_LEFT = PAD_X
+GRID_TOP = PAD_TOP
+GRID_RIGHT = PAD_X + COLS * CELL + (COLS - 1) * GAP
+GRID_BOTTOM = PAD_TOP + ROWS * CELL + (ROWS - 1) * GAP
 RUN_BOUNCE_Y = (0, -1, 0, 1)
 METEOR_OFFSETS = ((0, 0), (1, -1), (2, -1), (1, 0), (0, 1), (-1, 1), (0, 0), (1, -1))
 ROAR_ALPHA = [0.35, 1.0, 0.5, 1.0, 0.35, 0.85, 0.45, 0.95]
@@ -341,7 +345,7 @@ def draw_cells(
     for x, y, color, _level in cells:
         px = PAD_X + (x + dx) * (CELL + GAP)
         py = PAD_TOP + (y + dy) * (CELL + GAP)
-        if px > WIDTH or py > HEIGHT or px + CELL < 0 or py + CELL < 0:
+        if px > GRID_RIGHT or py > GRID_BOTTOM or px + CELL < GRID_LEFT or py + CELL < GRID_TOP:
             continue
         draw.rectangle((px, py, px + CELL, py + CELL), fill=rgba(color, alpha))
 
@@ -356,11 +360,7 @@ def build_gif_frames(
 
     theme = THEMES[theme_key]
     scene = build_scene()
-    occupied: set[tuple[int, int]] = set()
-    for cells in scene.values():
-        occupied |= cells
-
-    scene_counts = [grid[y][x] for (x, y) in occupied]
+    scene_counts = [grid[y][x] for cells in scene.values() for (x, y) in cells]
     t1, t2, t3, t4 = thresholds_for(scene_counts)
     part_data = build_colored_parts(grid, theme, scene, t1, t2, t3, t4)
 
@@ -376,10 +376,10 @@ def build_gif_frames(
     runner_min_x = min(cell[0] for cell in runner_cells)
     runner_max_x = max(cell[0] for cell in runner_cells)
     runner_width = runner_max_x - runner_min_x + 1
-    run_path_start = -runner_width - 3
-    run_path_end = COLS + 3
+    run_path_start = -runner_width - 6
+    run_path_end = COLS + 6
     run_path_span = run_path_end - run_path_start
-    runner_phases = (0.0, 0.5)
+    runner_phases = (0.0, 0.62)
 
     for frame_idx in range(frame_count):
         image = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
@@ -406,8 +406,6 @@ def build_gif_frames(
 
         for y in range(ROWS):
             for x in range(COLS):
-                if (x, y) in occupied:
-                    continue
                 px = PAD_X + x * (CELL + GAP)
                 py = PAD_TOP + y * (CELL + GAP)
                 draw.rectangle(
@@ -438,7 +436,7 @@ def build_gif_frames(
             else:
                 draw_cells(draw, part_data.get("leg_b", []), dx=run_dx, dy=run_dy, alpha=runner_alpha)
 
-            if runner_idx == 0 and 0.20 <= progress <= 0.82:
+            if runner_idx == 0 and 0.18 <= progress <= 0.84:
                 roar_alpha = ROAR_ALPHA[frame_idx % len(ROAR_ALPHA)]
                 roar_shift_x = run_dx + (1 if frame_idx % 3 == 0 else 0)
                 draw_cells(

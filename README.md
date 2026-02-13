@@ -100,21 +100,6 @@ _🤖 Auto-updates daily via GitHub Actions_
 
 ---
 
-## 🛰️ Metrics Deck
-
-<div align="center">
-
-<img src="./github-metrics.svg" alt="GitHub Metrics" width="96%"/>
-
-<img height="180em" src="https://github-readme-stats.vercel.app/api?username=coldzero94&show_icons=true&theme=transparent&include_all_commits=true&count_private=true&hide_border=true&title_color=7CF0C3&text_color=DFFEF2&icon_color=40D6FF"/>
-<img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=coldzero94&layout=compact&theme=transparent&hide_border=true&langs_count=8&title_color=7CF0C3&text_color=DFFEF2"/>
-
-[![GitHub Streak](https://streak-stats.demolab.com?user=coldzero94&theme=dark&hide_border=true&ring=7CF0C3&fire=FFC857&currStreakLabel=7CF0C3)](https://git.io/streak-stats)
-
-</div>
-
----
-
 ## 🎯 What I Build
 
 - **RAG Systems**: retrieval quality, latency, cost를 동시에 최적화
