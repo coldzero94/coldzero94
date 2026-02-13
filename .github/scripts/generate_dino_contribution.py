@@ -5,6 +5,8 @@ Generate a custom dinosaur-themed contribution SVG.
 Outputs:
 - dist/github-contribution-grid-dino.svg
 - dist/github-contribution-grid-dino-dark.svg
+- dist/github-contribution-grid-dino.gif
+- dist/github-contribution-grid-dino-dark.gif
 """
 
 from __future__ import annotations
@@ -14,6 +16,13 @@ import json
 import os
 import urllib.error
 import urllib.request
+
+try:
+    from PIL import Image, ImageDraw
+
+    PIL_AVAILABLE = True
+except ImportError:
+    PIL_AVAILABLE = False
 
 
 COLS = 53
@@ -25,6 +34,9 @@ PAD_TOP = 78
 PAD_BOTTOM = 28
 WIDTH = PAD_X * 2 + COLS * CELL + (COLS - 1) * GAP
 HEIGHT = PAD_TOP + ROWS * CELL + (ROWS - 1) * GAP + PAD_BOTTOM
+RUN_OFFSETS = [(0, 0), (1, -1), (2, 0), (1, 1), (0, 0), (-1, 1), (-2, 0), (-1, -1)]
+METEOR_OFFSETS = [(0, 0), (2, -1), (3, -1), (1, 0), (0, 1), (-1, 1), (0, 0), (1, -1)]
+ROAR_ALPHA = [0.35, 1.0, 0.5, 1.0, 0.35, 0.85, 0.45, 0.95]
 
 
 THEMES = {
@@ -273,6 +285,164 @@ def color_for(theme: dict, part_key: str, level: int) -> str:
     return palette[level]
 
 
+def hex_to_rgb(color: str) -> tuple[int, int, int]:
+    color = color.lstrip("#")
+    return (int(color[0:2], 16), int(color[2:4], 16), int(color[4:6], 16))
+
+
+def rgba(color: str, alpha: float = 1.0) -> tuple[int, int, int, int]:
+    r, g, b = hex_to_rgb(color)
+    a = max(0, min(255, int(alpha * 255)))
+    return (r, g, b, a)
+
+
+def lerp_color(color_a: str, color_b: str, t: float) -> tuple[int, int, int, int]:
+    ar, ag, ab = hex_to_rgb(color_a)
+    br, bg, bb = hex_to_rgb(color_b)
+    return (
+        int(ar + (br - ar) * t),
+        int(ag + (bg - ag) * t),
+        int(ab + (bb - ab) * t),
+        255,
+    )
+
+
+def build_colored_parts(
+    grid: list[list[int]],
+    theme: dict,
+    scene: dict[str, set[tuple[int, int]]],
+    t1: int,
+    t2: int,
+    t3: int,
+    t4: int,
+) -> dict[str, list[tuple[int, int, str, int]]]:
+    parts: dict[str, list[tuple[int, int, str, int]]] = {}
+    for part_key, cells in scene.items():
+        items: list[tuple[int, int, str, int]] = []
+        for x, y in sorted(cells, key=lambda pos: (pos[1], pos[0])):
+            level = level_for(grid[y][x], t1, t2, t3, t4)
+            color = color_for(theme, part_key, level)
+            items.append((x, y, color, level))
+        parts[part_key] = items
+    return parts
+
+
+def draw_cells(
+    draw: "ImageDraw.ImageDraw",
+    cells: list[tuple[int, int, str, int]],
+    dx: int = 0,
+    dy: int = 0,
+    alpha: float = 1.0,
+) -> None:
+    for x, y, color, _level in cells:
+        px = PAD_X + (x + dx) * (CELL + GAP)
+        py = PAD_TOP + (y + dy) * (CELL + GAP)
+        if px > WIDTH or py > HEIGHT or px + CELL < 0 or py + CELL < 0:
+            continue
+        draw.rectangle((px, py, px + CELL, py + CELL), fill=rgba(color, alpha))
+
+
+def build_gif_frames(grid: list[list[int]], theme_key: str, frame_count: int = 16) -> list["Image.Image"]:
+    if not PIL_AVAILABLE:
+        raise RuntimeError("Pillow is required to build GIF frames")
+
+    theme = THEMES[theme_key]
+    scene = build_scene()
+    occupied: set[tuple[int, int]] = set()
+    for cells in scene.values():
+        occupied |= cells
+
+    scene_counts = [grid[y][x] for (x, y) in occupied]
+    t1, t2, t3, t4 = thresholds_for(scene_counts)
+    part_data = build_colored_parts(grid, theme, scene, t1, t2, t3, t4)
+
+    frames: list["Image.Image"] = []
+
+    for frame_idx in range(frame_count):
+        image = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
+        draw = ImageDraw.Draw(image, "RGBA")
+
+        # Vertical gradient background for a premium look with GIF-safe rendering.
+        denom = max(1, HEIGHT - 1)
+        for y in range(HEIGHT):
+            t = y / denom
+            draw.line((0, y, WIDTH, y), fill=lerp_color(theme["background"], theme["panel"], t))
+
+        draw.text((PAD_X, 14), "Dino Contribution: GIF Edition", fill=rgba(theme["title"]))
+        draw.text((PAD_X, 34), "full compatible autoplay", fill=rgba(theme["subtitle"]))
+
+        for x in range(COLS):
+            if x % 4 != 0:
+                continue
+            px = PAD_X + x * (CELL + GAP)
+            draw.line(
+                (px, PAD_TOP - 12, px, HEIGHT - PAD_BOTTOM + 4),
+                fill=rgba(theme["empty"], 0.18),
+                width=1,
+            )
+
+        for y in range(ROWS):
+            for x in range(COLS):
+                if (x, y) in occupied:
+                    continue
+                px = PAD_X + x * (CELL + GAP)
+                py = PAD_TOP + y * (CELL + GAP)
+                draw.rectangle(
+                    (px, py, px + CELL, py + CELL),
+                    fill=rgba(theme["empty"], float(theme["empty_opacity"])),
+                )
+
+        run_dx, run_dy = RUN_OFFSETS[frame_idx % len(RUN_OFFSETS)]
+        meteor_dx, meteor_dy = METEOR_OFFSETS[frame_idx % len(METEOR_OFFSETS)]
+        roar_alpha = ROAR_ALPHA[frame_idx % len(ROAR_ALPHA)]
+        use_leg_a = frame_idx % 2 == 0
+
+        for part in ("ground", "cactus", "trail"):
+            draw_cells(draw, part_data.get(part, []))
+
+        draw_cells(draw, part_data.get("meteor", []), dx=meteor_dx, dy=meteor_dy, alpha=0.95)
+        draw_cells(draw, part_data.get("dino", []), dx=run_dx, dy=run_dy)
+        draw_cells(draw, part_data.get("spike", []), dx=run_dx, dy=run_dy)
+        draw_cells(draw, part_data.get("eye", []), dx=run_dx, dy=run_dy)
+
+        if use_leg_a:
+            draw_cells(draw, part_data.get("leg_a", []), dx=run_dx, dy=run_dy)
+        else:
+            draw_cells(draw, part_data.get("leg_b", []), dx=run_dx, dy=run_dy)
+
+        roar_shift_x = run_dx + (1 if frame_idx % 3 == 0 else 0)
+        draw_cells(draw, part_data.get("roar", []), dx=roar_shift_x, dy=run_dy, alpha=roar_alpha)
+
+        ground_y = PAD_TOP + (ROWS - 1) * (CELL + GAP) + CELL + 8
+        draw.line((PAD_X, ground_y, WIDTH - PAD_X, ground_y), fill=rgba(theme["ground"]), width=2)
+        draw.ellipse(
+            (WIDTH - PAD_X - 13, PAD_TOP - 13, WIDTH - PAD_X - 3, PAD_TOP - 3),
+            fill=rgba(theme["accent"]),
+        )
+        draw.text((WIDTH - 300, 34), "RUN CYCLE + GIF AUTOPLAY", fill=rgba(theme["subtitle"]))
+
+        generated_at = dt.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
+        draw.text((PAD_X, HEIGHT - 18), f"Generated {generated_at}", fill=rgba(theme["meta"]))
+
+        frames.append(image)
+
+    return frames
+
+
+def write_gif(path: str, frames: list["Image.Image"], duration_ms: int = 95) -> None:
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    if not frames:
+        raise RuntimeError("No GIF frames to write")
+    frames[0].save(
+        path,
+        save_all=True,
+        append_images=frames[1:],
+        loop=0,
+        duration=duration_ms,
+        disposal=2,
+    )
+
+
 def build_svg(grid: list[list[int]], theme_key: str) -> str:
     theme = THEMES[theme_key]
     scene = build_scene()
@@ -453,6 +623,16 @@ def main() -> None:
     write_svg("dist/github-contribution-grid-dino-dark.svg", dark_svg)
     print("Generated dist/github-contribution-grid-dino.svg")
     print("Generated dist/github-contribution-grid-dino-dark.svg")
+
+    if PIL_AVAILABLE:
+        light_frames = build_gif_frames(grid, "light")
+        dark_frames = build_gif_frames(grid, "dark")
+        write_gif("dist/github-contribution-grid-dino.gif", light_frames)
+        write_gif("dist/github-contribution-grid-dino-dark.gif", dark_frames)
+        print("Generated dist/github-contribution-grid-dino.gif")
+        print("Generated dist/github-contribution-grid-dino-dark.gif")
+    else:
+        print("Pillow not installed. GIF outputs were skipped.")
 
 
 if __name__ == "__main__":
