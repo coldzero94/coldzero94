@@ -93,6 +93,26 @@ DINO_SPIKE_PATTERN = [
     ".............................",
 ]
 
+DINO_LEG_A_PATTERN = [
+    ".............................",
+    ".............................",
+    ".............................",
+    ".............................",
+    ".............................",
+    ".................A...A.......",
+    "................AA..AA.......",
+]
+
+DINO_LEG_B_PATTERN = [
+    ".............................",
+    ".............................",
+    ".............................",
+    ".............................",
+    ".............................",
+    "................A.....A......",
+    "...............AA....AA......",
+]
+
 ROAR_PATTERN = [
     "....RRR........",
     "..RRRRRRR......",
@@ -188,13 +208,12 @@ def fallback_contributions() -> list[list[int]]:
 
 
 def stamp(
-    scene: dict[tuple[int, int], str],
     pattern: list[str],
     offset_x: int,
     offset_y: int,
-    part_key: str,
     token: str,
-) -> None:
+) -> set[tuple[int, int]]:
+    cells: set[tuple[int, int]] = set()
     for dy, row in enumerate(pattern):
         for dx, ch in enumerate(row):
             if ch != token:
@@ -202,29 +221,23 @@ def stamp(
             x = offset_x + dx
             y = offset_y + dy
             if 0 <= x < COLS and 0 <= y < ROWS:
-                scene[(x, y)] = part_key
+                cells.add((x, y))
+    return cells
 
 
-def build_scene() -> dict[tuple[int, int], str]:
-    scene: dict[tuple[int, int], str] = {}
-
-    for x in range(COLS):
-        scene[(x, ROWS - 1)] = "ground"
-
-    stamp(scene, METEOR_PATTERN, 6, 0, "meteor", "M")
-    stamp(scene, METEOR_PATTERN, 1, 1, "meteor", "M")
-
-    stamp(scene, CACTUS_PATTERN, 3, 0, "cactus", "C")
-    stamp(scene, CACTUS_PATTERN, 12, 0, "cactus", "C")
-
-    stamp(scene, TRAIL_PATTERN, 18, 4, "trail", "T")
-
-    stamp(scene, DINO_BODY_PATTERN, 20, 0, "dino", "D")
-    stamp(scene, DINO_SPIKE_PATTERN, 19, 0, "spike", "S")
-    stamp(scene, ROAR_PATTERN, 38, 1, "roar", "R")
-
-    scene[(46, 2)] = "eye"
-
+def build_scene() -> dict[str, set[tuple[int, int]]]:
+    scene: dict[str, set[tuple[int, int]]] = {
+        "ground": {(x, ROWS - 1) for x in range(COLS)},
+        "meteor": stamp(METEOR_PATTERN, 6, 0, "M") | stamp(METEOR_PATTERN, 1, 1, "M"),
+        "cactus": stamp(CACTUS_PATTERN, 3, 0, "C") | stamp(CACTUS_PATTERN, 12, 0, "C"),
+        "trail": stamp(TRAIL_PATTERN, 18, 4, "T"),
+        "dino": stamp(DINO_BODY_PATTERN, 20, 0, "D"),
+        "spike": stamp(DINO_SPIKE_PATTERN, 19, 0, "S"),
+        "leg_a": stamp(DINO_LEG_A_PATTERN, 20, 0, "A"),
+        "leg_b": stamp(DINO_LEG_B_PATTERN, 20, 0, "A"),
+        "roar": stamp(ROAR_PATTERN, 38, 1, "R"),
+        "eye": {(46, 2)},
+    }
     return scene
 
 
@@ -263,7 +276,11 @@ def color_for(theme: dict, part_key: str, level: int) -> str:
 def build_svg(grid: list[list[int]], theme_key: str) -> str:
     theme = THEMES[theme_key]
     scene = build_scene()
-    scene_counts = [grid[y][x] for (x, y) in scene]
+    occupied: set[tuple[int, int]] = set()
+    for cells in scene.values():
+        occupied |= cells
+
+    scene_counts = [grid[y][x] for (x, y) in occupied]
     t1, t2, t3, t4 = thresholds_for(scene_counts)
 
     lines: list[str] = []
@@ -303,28 +320,85 @@ def build_svg(grid: list[list[int]], theme_key: str) -> str:
                 f'stroke="{theme["empty"]}" stroke-opacity="0.18" />'
             )
 
+    empty_cells: list[str] = []
     for y in range(ROWS):
         for x in range(COLS):
+            if (x, y) in occupied:
+                continue
             x_pos = PAD_X + x * (CELL + GAP)
             y_pos = PAD_TOP + y * (CELL + GAP)
-            count = grid[y][x]
-            part_key = scene.get((x, y))
-            if part_key:
-                level = level_for(count, t1, t2, t3, t4)
-                color = color_for(theme, part_key, level)
-                lines.append(
-                    f'  <rect x="{x_pos}" y="{y_pos}" width="{CELL}" height="{CELL}" rx="2" fill="{color}" />'
+            empty_cells.append(
+                f'<rect x="{x_pos}" y="{y_pos}" width="{CELL}" height="{CELL}" rx="2" '
+                f'fill="{theme["empty"]}" opacity="{theme["empty_opacity"]}" />'
+            )
+
+    part_rects: dict[str, list[str]] = {}
+    for part_key, cells in scene.items():
+        cells_svg: list[str] = []
+        for x, y in sorted(cells, key=lambda pos: (pos[1], pos[0])):
+            x_pos = PAD_X + x * (CELL + GAP)
+            y_pos = PAD_TOP + y * (CELL + GAP)
+            level = level_for(grid[y][x], t1, t2, t3, t4)
+            color = color_for(theme, part_key, level)
+            cells_svg.append(
+                f'<rect x="{x_pos}" y="{y_pos}" width="{CELL}" height="{CELL}" rx="2" fill="{color}" />'
+            )
+            if level >= 3 and part_key in {"dino", "spike", "roar", "meteor", "eye", "leg_a", "leg_b"}:
+                cells_svg.append(
+                    f'<rect x="{x_pos}" y="{y_pos}" width="{CELL}" height="{CELL}" rx="2" '
+                    f'fill="{color}" opacity="0.34" filter="url(#glow-{theme_key})" />'
                 )
-                if level >= 3 and part_key in {"dino", "spike", "roar", "meteor", "eye"}:
-                    lines.append(
-                        f'  <rect x="{x_pos}" y="{y_pos}" width="{CELL}" height="{CELL}" rx="2" '
-                        f'fill="{color}" opacity="0.34" filter="url(#glow-{theme_key})" />'
-                    )
-            else:
-                lines.append(
-                    f'  <rect x="{x_pos}" y="{y_pos}" width="{CELL}" height="{CELL}" rx="2" '
-                    f'fill="{theme["empty"]}" opacity="{theme["empty_opacity"]}" />'
-                )
+        part_rects[part_key] = cells_svg
+
+    for cell in empty_cells:
+        lines.append(f"  {cell}")
+
+    lines.append('  <g id="terrain-layer">')
+    for part in ("ground", "cactus", "trail"):
+        for rect in part_rects.get(part, []):
+            lines.append(f"    {rect}")
+    lines.append("  </g>")
+
+    lines.append('  <g id="meteor-layer">')
+    for rect in part_rects.get("meteor", []):
+        lines.append(f"    {rect}")
+    lines.append(
+        '    <animateTransform attributeName="transform" type="translate" '
+        'values="0 0; 3 -1; 0 0; -2 1; 0 0" dur="1.6s" repeatCount="indefinite" />'
+    )
+    lines.append("  </g>")
+
+    lines.append('  <g id="dino-runner">')
+    for part in ("dino", "spike", "eye"):
+        for rect in part_rects.get(part, []):
+            lines.append(f"    {rect}")
+    lines.append(
+        '    <animateTransform attributeName="transform" type="translate" '
+        'values="0 0; 1 -1; 2 0; 1 1; 0 0; -1 1; -2 0; -1 -1; 0 0" '
+        'dur="0.78s" repeatCount="indefinite" />'
+    )
+    lines.append("  </g>")
+
+    lines.append('  <g id="leg-a-layer">')
+    for rect in part_rects.get("leg_a", []):
+        lines.append(f"    {rect}")
+    lines.append('    <animate attributeName="opacity" values="1;0;1" dur="0.39s" repeatCount="indefinite" />')
+    lines.append("  </g>")
+
+    lines.append('  <g id="leg-b-layer" opacity="0">')
+    for rect in part_rects.get("leg_b", []):
+        lines.append(f"    {rect}")
+    lines.append('    <animate attributeName="opacity" values="0;1;0" dur="0.39s" repeatCount="indefinite" />')
+    lines.append("  </g>")
+
+    lines.append('  <g id="roar-layer">')
+    for rect in part_rects.get("roar", []):
+        lines.append(f"    {rect}")
+    lines.append(
+        '    <animate attributeName="opacity" values="0.35;1;0.5;1;0.35" '
+        'dur="0.74s" repeatCount="indefinite" />'
+    )
+    lines.append("  </g>")
 
     ground_y = PAD_TOP + (ROWS - 1) * (CELL + GAP) + CELL + 8
     lines.append(
@@ -336,7 +410,7 @@ def build_svg(grid: list[list[int]], theme_key: str) -> str:
     )
     lines.append(
         f'  <text x="{WIDTH - 248}" y="56" fill="{theme["subtitle"]}" font-size="12" '
-        'font-family="monospace">OPEN-MOUTH T-REX + METEOR TRAIL</text>'
+        'font-family="monospace">RUN CYCLE + ROAR PULSE + METEOR TRAIL</text>'
     )
 
     generated_at = dt.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")

@@ -37,6 +37,8 @@
 
 <div align="center">
 
+_Animated Dino Run Cycle (SMIL SVG)_
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/coldzero94/coldzero94/output/github-contribution-grid-dino-dark.svg" />
   <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/coldzero94/coldzero94/output/github-contribution-grid-dino.svg" />
