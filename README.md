@@ -51,7 +51,7 @@
 
 <div align="center">
 
-**Total Code Across All Repositories: 37.2 MB** _(Auto-updated: 2026-02-13)_
+**Total Code Across All Repositories: 36.5 MB** _(Auto-updated: 2026-02-13)_
 
 ```python
 # Real data from all my repositories
@@ -66,11 +66,12 @@ languages = {
 
 <!-- Custom Language Stats with Animation -->
 ```
-Python       ████████████████████████████████████ 60.1%  (AI/ML, FastAPI, Django)
-TypeScript   ████████████████░░░░░░░░░░░░░░░░░░░ 28.0%  (Next.js, React, Node.js)
-JavaScript   █████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 8.5%   (Frontend, Web)
-Go           ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 1.5%   (Backend, Microservices)
-Others       █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 1.9%   (Shell, Docker, Config)
+Python       █████████████████████░░░░░░░░░░░░░░░ 59.9%  (AI/ML, FastAPI, Django)
+TypeScript   ██████████░░░░░░░░░░░░░░░░░░░░░░░░░░ 27.8%  (Next.js, React, Node.js)
+JavaScript   ███░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  8.7%  (Frontend, Web)
+Go           ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  1.5%  (Backend, Microservices)
+Java         ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  0.6%  (Backend, Spring)
+Others       ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  1.5%  (Shell, Docker, Config)
 ```
 
 </div>
