@@ -37,10 +37,10 @@ HEIGHT = PAD_TOP + ROWS * CELL + (ROWS - 1) * GAP + PAD_BOTTOM
 RUN_BOUNCE_Y = (0, -1, 0, 1)
 METEOR_OFFSETS = ((0, 0), (1, -1), (2, -1), (1, 0), (0, 1), (-1, 1), (0, 0), (1, -1))
 ROAR_ALPHA = [0.35, 1.0, 0.5, 1.0, 0.35, 0.85, 0.45, 0.95]
-GIF_FRAME_COUNT = 18
-GIF_DURATION_MS = 105
+GIF_FRAME_COUNT = 24
+GIF_DURATION_MS = 90
 GIF_DOWNSCALE = 0.72
-GIF_PALETTE_COLORS = 96
+GIF_PALETTE_COLORS = 88
 
 
 THEMES = {
@@ -366,10 +366,20 @@ def build_gif_frames(
 
     frames: list["Image.Image"] = []
 
-    dino_width = len(DINO_BODY_PATTERN[0])
-    cycle_span = COLS + dino_width + 12
-    run_stride = 4
     resampling = getattr(Image, "Resampling", Image).LANCZOS
+    runner_parts = ("dino", "spike", "eye", "leg_a", "leg_b", "roar")
+    runner_cells = [
+        cell
+        for part_name in runner_parts
+        for cell in part_data.get(part_name, [])
+    ]
+    runner_min_x = min(cell[0] for cell in runner_cells)
+    runner_max_x = max(cell[0] for cell in runner_cells)
+    runner_width = runner_max_x - runner_min_x + 1
+    run_path_start = -runner_width - 3
+    run_path_end = COLS + 3
+    run_path_span = run_path_end - run_path_start
+    runner_phases = (0.0, 0.5)
 
     for frame_idx in range(frame_count):
         image = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
@@ -405,28 +415,39 @@ def build_gif_frames(
                     fill=rgba(theme["empty"], float(theme["empty_opacity"])),
                 )
 
-        run_progress = (frame_idx * run_stride) % cycle_span
-        run_dx = run_progress - dino_width
-        run_dy = RUN_BOUNCE_Y[frame_idx % len(RUN_BOUNCE_Y)]
         meteor_dx, meteor_dy = METEOR_OFFSETS[frame_idx % len(METEOR_OFFSETS)]
-        roar_alpha = ROAR_ALPHA[frame_idx % len(ROAR_ALPHA)]
-        use_leg_a = frame_idx % 2 == 0
 
         for part in ("ground", "cactus", "trail"):
             draw_cells(draw, part_data.get(part, []))
 
         draw_cells(draw, part_data.get("meteor", []), dx=meteor_dx, dy=meteor_dy, alpha=0.95)
-        draw_cells(draw, part_data.get("dino", []), dx=run_dx, dy=run_dy)
-        draw_cells(draw, part_data.get("spike", []), dx=run_dx, dy=run_dy)
-        draw_cells(draw, part_data.get("eye", []), dx=run_dx, dy=run_dy)
+        for runner_idx, phase in enumerate(runner_phases):
+            progress = ((frame_idx / frame_count) + phase) % 1.0
+            runner_front_x = int(round(run_path_start + progress * run_path_span))
+            run_dx = runner_front_x - runner_min_x
+            run_dy = RUN_BOUNCE_Y[(frame_idx + runner_idx * 2) % len(RUN_BOUNCE_Y)]
+            runner_alpha = 1.0 if runner_idx == 0 else 0.9
 
-        if use_leg_a:
-            draw_cells(draw, part_data.get("leg_a", []), dx=run_dx, dy=run_dy)
-        else:
-            draw_cells(draw, part_data.get("leg_b", []), dx=run_dx, dy=run_dy)
+            draw_cells(draw, part_data.get("dino", []), dx=run_dx, dy=run_dy, alpha=runner_alpha)
+            draw_cells(draw, part_data.get("spike", []), dx=run_dx, dy=run_dy, alpha=runner_alpha)
+            draw_cells(draw, part_data.get("eye", []), dx=run_dx, dy=run_dy, alpha=runner_alpha)
 
-        roar_shift_x = run_dx + (1 if frame_idx % 3 == 0 else 0)
-        draw_cells(draw, part_data.get("roar", []), dx=roar_shift_x, dy=run_dy, alpha=roar_alpha)
+            use_leg_a = (frame_idx + runner_idx) % 2 == 0
+            if use_leg_a:
+                draw_cells(draw, part_data.get("leg_a", []), dx=run_dx, dy=run_dy, alpha=runner_alpha)
+            else:
+                draw_cells(draw, part_data.get("leg_b", []), dx=run_dx, dy=run_dy, alpha=runner_alpha)
+
+            if runner_idx == 0 and 0.20 <= progress <= 0.82:
+                roar_alpha = ROAR_ALPHA[frame_idx % len(ROAR_ALPHA)]
+                roar_shift_x = run_dx + (1 if frame_idx % 3 == 0 else 0)
+                draw_cells(
+                    draw,
+                    part_data.get("roar", []),
+                    dx=roar_shift_x,
+                    dy=run_dy,
+                    alpha=roar_alpha,
+                )
 
         ground_y = PAD_TOP + (ROWS - 1) * (CELL + GAP) + CELL + 8
         draw.line((PAD_X, ground_y, WIDTH - PAD_X, ground_y), fill=rgba(theme["ground"]), width=2)
@@ -434,7 +455,7 @@ def build_gif_frames(
             (WIDTH - PAD_X - 13, PAD_TOP - 13, WIDTH - PAD_X - 3, PAD_TOP - 3),
             fill=rgba(theme["accent"]),
         )
-        draw.text((WIDTH - 330, 34), "FORWARD RUN LOOP + GIF AUTOPLAY", fill=rgba(theme["subtitle"]))
+        draw.text((WIDTH - 390, 34), "CONTINUOUS FORWARD LOOP + DUAL DINO STREAM", fill=rgba(theme["subtitle"]))
 
         generated_at = dt.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
         draw.text((PAD_X, HEIGHT - 18), f"Generated {generated_at}", fill=rgba(theme["meta"]))

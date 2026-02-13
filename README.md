@@ -37,7 +37,7 @@
 
 <div align="center">
 
-_Animated Dino Run Loop: sprint forward, exit frame, respawn from behind (GIF autoplay)_
+_Animated Dino Run Loop: one dino exits, the next dino enters, endless forward motion (GIF autoplay)_
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/coldzero94/coldzero94/output/github-contribution-grid-dino-dark.gif" />
