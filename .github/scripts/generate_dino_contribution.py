@@ -24,6 +24,8 @@ try:
 except ImportError:
     PIL_AVAILABLE = False
 
+ENABLE_GIF = os.getenv("ENABLE_GIF", "false").strip().lower() == "true"
+
 
 COLS = 53
 ROWS = 7
@@ -677,15 +679,17 @@ def main() -> None:
     print("Generated dist/github-contribution-grid-dino.svg")
     print("Generated dist/github-contribution-grid-dino-dark.svg")
 
-    if PIL_AVAILABLE:
+    if ENABLE_GIF and PIL_AVAILABLE:
         light_frames = build_gif_frames(grid, "light")
         dark_frames = build_gif_frames(grid, "dark")
         write_gif("dist/github-contribution-grid-dino.gif", light_frames)
         write_gif("dist/github-contribution-grid-dino-dark.gif", dark_frames)
         print("Generated dist/github-contribution-grid-dino.gif")
         print("Generated dist/github-contribution-grid-dino-dark.gif")
-    else:
+    elif ENABLE_GIF:
         print("Pillow not installed. GIF outputs were skipped.")
+    else:
+        print("GIF generation disabled. SVG-only mode is active.")
 
 
 if __name__ == "__main__":

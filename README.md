@@ -37,12 +37,12 @@
 
 <div align="center">
 
-_Animated Dino Run Loop: one dino exits, the next dino enters, endless forward motion (GIF autoplay)_
+_Animated Dino Run Loop (SVG vector animation, snake-style smooth playback)_
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/coldzero94/coldzero94/output/github-contribution-grid-dino-dark.gif" />
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/coldzero94/coldzero94/output/github-contribution-grid-dino.gif" />
-  <img alt="Contribution Dino GIF" src="https://raw.githubusercontent.com/coldzero94/coldzero94/output/github-contribution-grid-dino.gif" width="100%"/>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/coldzero94/coldzero94/output/github-contribution-grid-dino-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/coldzero94/coldzero94/output/github-contribution-grid-dino.svg" />
+  <img alt="Contribution Dino SVG" src="https://raw.githubusercontent.com/coldzero94/coldzero94/output/github-contribution-grid-dino.svg" width="100%"/>
 </picture>
 
 </div>

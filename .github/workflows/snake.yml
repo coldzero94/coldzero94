@@ -29,11 +29,6 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install GIF rendering dependency
-        run: |
-          python3 -m pip install --upgrade pip
-          python3 -m pip install pillow
-
       - name: Generate custom dino contribution assets
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
