@@ -37,7 +37,7 @@
 
 <div align="center">
 
-_Animated Dino Run Loop (SVG vector animation, snake-style smooth playback)_
+_Animated Dino Run Loop: one dino exits right, next dino enters left (no fade loop)_
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/coldzero94/coldzero94/output/github-contribution-grid-dino-dark.svg" />

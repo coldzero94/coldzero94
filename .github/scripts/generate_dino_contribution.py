@@ -558,35 +558,45 @@ def build_svg(grid: list[list[int]], theme_key: str) -> str:
             lines.append(f"    {rect}")
     lines.append("  </g>")
 
-    run_values = "-34 0; -22 0; -8 0; 8 0; 24 0; 40 0; 56 0; 70 0"
-    runner_dur = "3.2s"
-    fade_values = "0;0.85;1;1;0.75;0.15;0"
-    fade_keys = "0;0.08;0.2;0.72;0.84;0.94;1"
-    runner_begins = ("0s", "-1.6s")
-    runner_legs = ("leg_a", "leg_b")
+    run_values = "-36 0; -24 0; -12 0; 0 0; 12 0; 24 0; 36 0; 48 0; 60 0; 72 0"
+    runner_dur = "3.4s"
+    leg_dur = "0.42s"
 
-    for idx, begin in enumerate(runner_begins):
-        lines.append(f'  <g id="runner-{idx}">')
-        for part in ("dino", "spike", "eye", runner_legs[idx]):
-            for rect in part_rects.get(part, []):
-                lines.append(f"    {rect}")
-        lines.append('    <g id="runner-roar">')
-        for rect in part_rects.get("roar", []):
-            lines.append(f"      {rect}")
-        lines.append(
-            '      <animate attributeName="opacity" values="0.10;0.75;0.2;0.85;0.10" '
-            f'dur="{runner_dur}" begin="{begin}" repeatCount="indefinite" />'
-        )
-        lines.append("    </g>")
-        lines.append(
-            '    <animateTransform attributeName="transform" type="translate" '
-            f'values="{run_values}" dur="{runner_dur}" begin="{begin}" repeatCount="indefinite" />'
-        )
-        lines.append(
-            '    <animate attributeName="opacity" '
-            f'values="{fade_values}" keyTimes="{fade_keys}" dur="{runner_dur}" begin="{begin}" repeatCount="indefinite" />'
-        )
-        lines.append("  </g>")
+    lines.append('  <g id="runner-main">')
+    for part in ("dino", "spike", "eye"):
+        for rect in part_rects.get(part, []):
+            lines.append(f"    {rect}")
+
+    lines.append('    <g id="runner-leg-a">')
+    for rect in part_rects.get("leg_a", []):
+        lines.append(f"      {rect}")
+    lines.append(
+        f'      <animate attributeName="opacity" values="1;0;1" dur="{leg_dur}" repeatCount="indefinite" />'
+    )
+    lines.append("    </g>")
+
+    lines.append('    <g id="runner-leg-b" opacity="0">')
+    for rect in part_rects.get("leg_b", []):
+        lines.append(f"      {rect}")
+    lines.append(
+        f'      <animate attributeName="opacity" values="0;1;0" dur="{leg_dur}" repeatCount="indefinite" />'
+    )
+    lines.append("    </g>")
+
+    lines.append('    <g id="runner-roar">')
+    for rect in part_rects.get("roar", []):
+        lines.append(f"      {rect}")
+    lines.append(
+        '      <animate attributeName="opacity" values="0.05;0.70;0.15;0.75;0.05" '
+        f'keyTimes="0;0.18;0.42;0.68;1" dur="{runner_dur}" repeatCount="indefinite" />'
+    )
+    lines.append("    </g>")
+
+    lines.append(
+        '    <animateTransform attributeName="transform" type="translate" calcMode="linear" '
+        f'values="{run_values}" dur="{runner_dur}" repeatCount="indefinite" />'
+    )
+    lines.append("  </g>")
 
     ground_y = PAD_TOP + (ROWS - 1) * (CELL + GAP) + CELL + 8
     lines.append(
@@ -598,7 +608,7 @@ def build_svg(grid: list[list[int]], theme_key: str) -> str:
     )
     lines.append(
         f'  <text x="{WIDTH - 248}" y="56" fill="{theme["subtitle"]}" font-size="12" '
-        'font-family="monospace">FADE IN, RUN THROUGH, FADE OUT, REPEAT</text>'
+        'font-family="monospace">RUN OUT RIGHT, NEXT DINO ENTERS LEFT</text>'
     )
 
     generated_at = dt.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
