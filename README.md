@@ -18,9 +18,9 @@
 
 ## 🦖 Dino Mode
 
-- 현재 프로필 컨셉: **Dino Lab + AI Engineering Showroom**
-- 목표: 방문자가 3초 안에 "이 사람은 AI 제품을 실제로 만든다"는 인상을 받게 구성
-- 톤: 실험적이지만 실무형 (화려함 + 신뢰성 동시 확보)
+- **DINO MODE**: I break through every obstacle and keep shipping at full speed.
+- This profile is built as an AI engineering showroom with aggressive execution energy.
+- Goal: make visitors feel product momentum and technical depth in the first few seconds.
 
 <div align="center">
   <a href="https://chromedino.com/" target="_blank">
@@ -37,7 +37,7 @@
 
 <div align="center">
 
-_Animated Dino Run Cycle (GIF autoplay, full compatibility)_
+_Animated Dino Run Loop: sprint forward, exit frame, respawn from behind (GIF autoplay)_
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/coldzero94/coldzero94/output/github-contribution-grid-dino-dark.gif" />

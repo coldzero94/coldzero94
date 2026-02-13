@@ -34,9 +34,13 @@ PAD_TOP = 78
 PAD_BOTTOM = 28
 WIDTH = PAD_X * 2 + COLS * CELL + (COLS - 1) * GAP
 HEIGHT = PAD_TOP + ROWS * CELL + (ROWS - 1) * GAP + PAD_BOTTOM
-RUN_OFFSETS = [(0, 0), (1, -1), (2, 0), (1, 1), (0, 0), (-1, 1), (-2, 0), (-1, -1)]
-METEOR_OFFSETS = [(0, 0), (2, -1), (3, -1), (1, 0), (0, 1), (-1, 1), (0, 0), (1, -1)]
+RUN_BOUNCE_Y = (0, -1, 0, 1)
+METEOR_OFFSETS = ((0, 0), (1, -1), (2, -1), (1, 0), (0, 1), (-1, 1), (0, 0), (1, -1))
 ROAR_ALPHA = [0.35, 1.0, 0.5, 1.0, 0.35, 0.85, 0.45, 0.95]
+GIF_FRAME_COUNT = 18
+GIF_DURATION_MS = 105
+GIF_DOWNSCALE = 0.72
+GIF_PALETTE_COLORS = 96
 
 
 THEMES = {
@@ -342,7 +346,11 @@ def draw_cells(
         draw.rectangle((px, py, px + CELL, py + CELL), fill=rgba(color, alpha))
 
 
-def build_gif_frames(grid: list[list[int]], theme_key: str, frame_count: int = 16) -> list["Image.Image"]:
+def build_gif_frames(
+    grid: list[list[int]],
+    theme_key: str,
+    frame_count: int = GIF_FRAME_COUNT,
+) -> list["Image.Image"]:
     if not PIL_AVAILABLE:
         raise RuntimeError("Pillow is required to build GIF frames")
 
@@ -358,6 +366,11 @@ def build_gif_frames(grid: list[list[int]], theme_key: str, frame_count: int = 1
 
     frames: list["Image.Image"] = []
 
+    dino_width = len(DINO_BODY_PATTERN[0])
+    cycle_span = COLS + dino_width + 12
+    run_stride = 4
+    resampling = getattr(Image, "Resampling", Image).LANCZOS
+
     for frame_idx in range(frame_count):
         image = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
         draw = ImageDraw.Draw(image, "RGBA")
@@ -368,8 +381,8 @@ def build_gif_frames(grid: list[list[int]], theme_key: str, frame_count: int = 1
             t = y / denom
             draw.line((0, y, WIDTH, y), fill=lerp_color(theme["background"], theme["panel"], t))
 
-        draw.text((PAD_X, 14), "Dino Contribution: GIF Edition", fill=rgba(theme["title"]))
-        draw.text((PAD_X, 34), "full compatible autoplay", fill=rgba(theme["subtitle"]))
+        draw.text((PAD_X, 14), "DINO MODE: I BREAK THROUGH EVERY OBSTACLE", fill=rgba(theme["title"]))
+        draw.text((PAD_X, 34), "No brakes. No excuses. Just relentless shipping.", fill=rgba(theme["subtitle"]))
 
         for x in range(COLS):
             if x % 4 != 0:
@@ -392,7 +405,9 @@ def build_gif_frames(grid: list[list[int]], theme_key: str, frame_count: int = 1
                     fill=rgba(theme["empty"], float(theme["empty_opacity"])),
                 )
 
-        run_dx, run_dy = RUN_OFFSETS[frame_idx % len(RUN_OFFSETS)]
+        run_progress = (frame_idx * run_stride) % cycle_span
+        run_dx = run_progress - dino_width
+        run_dy = RUN_BOUNCE_Y[frame_idx % len(RUN_BOUNCE_Y)]
         meteor_dx, meteor_dy = METEOR_OFFSETS[frame_idx % len(METEOR_OFFSETS)]
         roar_alpha = ROAR_ALPHA[frame_idx % len(ROAR_ALPHA)]
         use_leg_a = frame_idx % 2 == 0
@@ -419,17 +434,25 @@ def build_gif_frames(grid: list[list[int]], theme_key: str, frame_count: int = 1
             (WIDTH - PAD_X - 13, PAD_TOP - 13, WIDTH - PAD_X - 3, PAD_TOP - 3),
             fill=rgba(theme["accent"]),
         )
-        draw.text((WIDTH - 300, 34), "RUN CYCLE + GIF AUTOPLAY", fill=rgba(theme["subtitle"]))
+        draw.text((WIDTH - 330, 34), "FORWARD RUN LOOP + GIF AUTOPLAY", fill=rgba(theme["subtitle"]))
 
         generated_at = dt.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
         draw.text((PAD_X, HEIGHT - 18), f"Generated {generated_at}", fill=rgba(theme["meta"]))
 
+        if GIF_DOWNSCALE < 1.0:
+            target_size = (
+                max(1, int(WIDTH * GIF_DOWNSCALE)),
+                max(1, int(HEIGHT * GIF_DOWNSCALE)),
+            )
+            image = image.resize(target_size, resample=resampling)
+
+        image = image.convert("P", palette=Image.ADAPTIVE, colors=GIF_PALETTE_COLORS)
         frames.append(image)
 
     return frames
 
 
-def write_gif(path: str, frames: list["Image.Image"], duration_ms: int = 95) -> None:
+def write_gif(path: str, frames: list["Image.Image"], duration_ms: int = GIF_DURATION_MS) -> None:
     os.makedirs(os.path.dirname(path), exist_ok=True)
     if not frames:
         raise RuntimeError("No GIF frames to write")
@@ -440,6 +463,7 @@ def write_gif(path: str, frames: list["Image.Image"], duration_ms: int = 95) -> 
         loop=0,
         duration=duration_ms,
         disposal=2,
+        optimize=True,
     )
 
 
@@ -534,7 +558,7 @@ def build_svg(grid: list[list[int]], theme_key: str) -> str:
         lines.append(f"    {rect}")
     lines.append(
         '    <animateTransform attributeName="transform" type="translate" '
-        'values="0 0; 3 -1; 0 0; -2 1; 0 0" dur="1.6s" repeatCount="indefinite" />'
+        'values="0 0; 2 -1; 4 -1; 1 0; 0 1; -1 1; 0 0" dur="1.7s" repeatCount="indefinite" />'
     )
     lines.append("  </g>")
 
@@ -544,8 +568,8 @@ def build_svg(grid: list[list[int]], theme_key: str) -> str:
             lines.append(f"    {rect}")
     lines.append(
         '    <animateTransform attributeName="transform" type="translate" '
-        'values="0 0; 1 -1; 2 0; 1 1; 0 0; -1 1; -2 0; -1 -1; 0 0" '
-        'dur="0.78s" repeatCount="indefinite" />'
+        'values="-28 0; -18 -1; -8 0; 4 1; 16 0; 28 -1; 40 0; 52 1; -28 0" '
+        'dur="2.2s" repeatCount="indefinite" />'
     )
     lines.append("  </g>")
 
@@ -553,12 +577,22 @@ def build_svg(grid: list[list[int]], theme_key: str) -> str:
     for rect in part_rects.get("leg_a", []):
         lines.append(f"    {rect}")
     lines.append('    <animate attributeName="opacity" values="1;0;1" dur="0.39s" repeatCount="indefinite" />')
+    lines.append(
+        '    <animateTransform attributeName="transform" type="translate" '
+        'values="-28 0; -18 -1; -8 0; 4 1; 16 0; 28 -1; 40 0; 52 1; -28 0" '
+        'dur="2.2s" repeatCount="indefinite" />'
+    )
     lines.append("  </g>")
 
     lines.append('  <g id="leg-b-layer" opacity="0">')
     for rect in part_rects.get("leg_b", []):
         lines.append(f"    {rect}")
     lines.append('    <animate attributeName="opacity" values="0;1;0" dur="0.39s" repeatCount="indefinite" />')
+    lines.append(
+        '    <animateTransform attributeName="transform" type="translate" '
+        'values="-28 0; -18 -1; -8 0; 4 1; 16 0; 28 -1; 40 0; 52 1; -28 0" '
+        'dur="2.2s" repeatCount="indefinite" />'
+    )
     lines.append("  </g>")
 
     lines.append('  <g id="roar-layer">')
@@ -580,7 +614,7 @@ def build_svg(grid: list[list[int]], theme_key: str) -> str:
     )
     lines.append(
         f'  <text x="{WIDTH - 248}" y="56" fill="{theme["subtitle"]}" font-size="12" '
-        'font-family="monospace">RUN CYCLE + ROAR PULSE + METEOR TRAIL</text>'
+        'font-family="monospace">BREAKING LIMITS, SHATTERING OBSTACLES</text>'
     )
 
     generated_at = dt.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
