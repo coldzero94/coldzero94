@@ -53,27 +53,27 @@ _Animated Dino Run Loop: one dino exits left, next dino enters right (no fade lo
 
 <div align="left">
 
-**Total Code Across All Repositories: 36.8 MB** _(Auto-updated: 2026-02-15)_
+**Total Code Across All Repositories: 37.3 MB** _(Auto-updated: 2026-02-16)_
 
 ```python
 # Real data from all my repositories
 languages = {
-    'Python':  21.9,  # 59.4%
-    'TypeScript':  10.3,  # 28.0%
-    'JavaScript':   3.2,  #  8.6%
-    'Go':   0.7,  #  1.9%
+    'Python':  21.9,  # 58.7%
+    'TypeScript':  10.7,  # 28.6%
+    'JavaScript':   3.2,  #  8.5%
+    'Go':   0.8,  #  2.2%
     'Java':   0.2,  #  0.6%
 }
 ```
 
 <!-- Custom Language Stats with Animation -->
 ```
-Python       █████████████████████░░░░░░░░░░░░░░░ 59.4%  (AI/ML, FastAPI, Django)
-TypeScript   ██████████░░░░░░░░░░░░░░░░░░░░░░░░░░ 28.0%  (Next.js, React, Node.js)
-JavaScript   ███░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  8.6%  (Frontend, Web)
-Go           ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  1.9%  (Backend, Microservices)
+Python       █████████████████████░░░░░░░░░░░░░░░ 58.7%  (AI/ML, FastAPI, Django)
+TypeScript   ██████████░░░░░░░░░░░░░░░░░░░░░░░░░░ 28.6%  (Next.js, React, Node.js)
+JavaScript   ███░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  8.5%  (Frontend, Web)
+Go           ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  2.2%  (Backend, Microservices)
 Java         ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  0.6%  (Backend, Spring)
-Others       ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  1.4%  (Shell, Docker, Config)
+Others       ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  1.5%  (Shell, Docker, Config)
 ```
 
 </div>
