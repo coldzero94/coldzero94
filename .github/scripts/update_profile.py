@@ -8,7 +8,10 @@ import json
 import subprocess
 import sys
 import re
-from datetime import datetime, timedelta
+import urllib.request
+import xml.etree.ElementTree as ET
+from datetime import datetime, timedelta, timezone
+from email.utils import parsedate_to_datetime
 from collections import defaultdict
 from typing import Dict, List, Tuple
 
@@ -31,7 +34,7 @@ def get_all_repos() -> List[Dict]:
     cmd = [
         "gh", "repo", "list", "coldzero94",
         "--limit", "100",
-        "--json", "name,description,primaryLanguage,languages,updatedAt,pushedAt,stargazerCount,isPrivate"
+        "--json", "name,description,primaryLanguage,languages,updatedAt,pushedAt,stargazerCount,isPrivate,isFork"
     ]
 
     output = run_command(cmd)
@@ -139,7 +142,60 @@ def update_readme_section(content: str, section_marker: str, new_content: str) -
     return updated
 
 
-def update_readme_simple(lang_stats: Dict):
+def format_recent_pushes(repos: List[Dict], limit: int = 3) -> str:
+    """One-line freshness signal: latest public non-fork repos by push date"""
+    candidates = [
+        r for r in repos
+        if not r.get("isPrivate") and not r.get("isFork")
+        and r.get("name") != "coldzero94" and r.get("pushedAt")
+    ]
+    candidates.sort(key=lambda r: r["pushedAt"], reverse=True)
+
+    parts = []
+    for repo in candidates[:limit]:
+        date = repo["pushedAt"][:10]
+        parts.append(f"[{repo['name']}](https://github.com/coldzero94/{repo['name']}) `{date}`")
+
+    if not parts:
+        return ""
+    return "🔨 **Recent pushes:** " + " · ".join(parts)
+
+
+def fetch_velog_writing(max_posts: int = 5, max_age_days: int = 540) -> str:
+    """Latest writing section from the velog RSS feed.
+
+    Returns an empty string when there are no sufficiently recent posts,
+    which collapses the section entirely (a stale feed is worse than none).
+    """
+    url = "https://v2.velog.io/rss/@coldzero"
+    try:
+        with urllib.request.urlopen(url, timeout=15) as resp:
+            root = ET.fromstring(resp.read())
+    except Exception as e:
+        print(f"⚠️  Could not fetch velog RSS ({e}); leaving writing section as-is")
+        raise
+
+    cutoff = datetime.now(timezone.utc) - timedelta(days=max_age_days)
+    rows = []
+    for item in root.iter("item"):
+        title = (item.findtext("title") or "").strip()
+        link = (item.findtext("link") or "").strip()
+        pub = item.findtext("pubDate")
+        if not (title and link and pub):
+            continue
+        published = parsedate_to_datetime(pub)
+        if published < cutoff:
+            continue
+        rows.append(f"| {published.strftime('%Y-%m-%d')} | [{title}]({link}) |")
+        if len(rows) >= max_posts:
+            break
+
+    if not rows:
+        return ""
+    return "## ✍️ Latest writing\n\n| Date | Post |\n| --- | --- |\n" + "\n".join(rows)
+
+
+def update_readme_simple(lang_stats: Dict, repos: List[Dict]):
     """Update README.md with new language stats using simple pattern matching"""
     print("📝 Updating README.md...")
 
@@ -174,6 +230,15 @@ def update_readme_simple(lang_stats: Dict):
     if re.search(bar_pattern, content, re.DOTALL):
         content = re.sub(bar_pattern, r'\1' + bar_langs + '\n' + r'\3', content, flags=re.DOTALL)
 
+    # Update 4: recent-pushes freshness line
+    content = update_readme_section(content, "SHIPPING", format_recent_pushes(repos))
+
+    # Update 5: latest writing from velog (section disappears when feed is stale)
+    try:
+        content = update_readme_section(content, "WRITING", fetch_velog_writing())
+    except Exception:
+        pass  # network hiccup: keep the previous section contents
+
     # Write back
     with open(readme_path, 'w', encoding='utf-8') as f:
         f.write(content)
@@ -191,7 +256,7 @@ def main():
     lang_stats = analyze_language_stats(repos)
 
     # Update README
-    update_readme_simple(lang_stats)
+    update_readme_simple(lang_stats, repos)
 
     print("\n✨ Profile update complete!")
     print(f"📊 Languages: {len(lang_stats)}")

@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 300" width="840" height="300" role="img" aria-label="Terminal session: whoami — Chanyoung Lee, AI engineer building RAG, semantic search, and agent tooling. brew install coldzero94/coldframe/cold-frame.">
+  <style>
+    .win { fill: #0d1117; stroke: #30363d; stroke-width: 1; }
+    .bar { fill: #161b22; }
+    .title { fill: #8b949e; font: 500 12px ui-monospace, 'SF Mono', Menlo, Consolas, monospace; text-anchor: middle; }
+    text { font: 13.5px ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }
+    .p  { fill: #7ee787; }
+    .c  { fill: #e6edf3; }
+    .o  { fill: #8b949e; }
+    .hl { fill: #79c0ff; }
+    .ac { fill: #56d4bc; }
+    .cur { fill: #7ee787; animation: blink 1.1s steps(2, start) infinite; }
+
+    .session { animation: session 20s linear infinite; }
+    .t1 { animation: type1 20s linear infinite; }
+    .t2 { animation: type2 20s linear infinite; }
+    .t3 { animation: type3 20s linear infinite; }
+    .f1 { animation: fade1 20s linear infinite; }
+    .f2 { animation: fade2 20s linear infinite; }
+    .f3 { animation: fade3 20s linear infinite; }
+    .f4 { animation: fade4 20s linear infinite; }
+    .f5 { animation: fade5 20s linear infinite; }
+
+    @keyframes session { 0%, 92% { opacity: 1; } 96%, 100% { opacity: 0; } }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+    @keyframes type1 { 0%, 1% { clip-path: inset(0 100% 0 0); animation-timing-function: steps(8, end); } 4%, 100% { clip-path: inset(0 -2% 0 0); } }
+    @keyframes fade1 { 0%, 5% { opacity: 0; } 7%, 100% { opacity: 1; } }
+    @keyframes type2 { 0%, 10% { clip-path: inset(0 100% 0 0); animation-timing-function: steps(22, end); } 15%, 100% { clip-path: inset(0 -2% 0 0); } }
+    @keyframes fade2 { 0%, 16% { opacity: 0; } 18%, 100% { opacity: 1; } }
+    @keyframes type3 { 0%, 21% { clip-path: inset(0 100% 0 0); animation-timing-function: steps(18, end); } 26%, 100% { clip-path: inset(0 -2% 0 0); } }
+    @keyframes fade3 { 0%, 27% { opacity: 0; } 29%, 100% { opacity: 1; } }
+    @keyframes fade4 { 0%, 30% { opacity: 0; } 32%, 100% { opacity: 1; } }
+    @keyframes fade5 { 0%, 34% { opacity: 0; } 35%, 100% { opacity: 1; } }
+  </style>
+
+  <rect class="win" x="0.5" y="0.5" width="839" height="299" rx="10"/>
+  <path class="bar" d="M0.5 10.5 a10 10 0 0 1 10-10 h819 a10 10 0 0 1 10 10 v25 h-839 z"/>
+  <circle cx="22" cy="18" r="6" fill="#ff5f56"/>
+  <circle cx="42" cy="18" r="6" fill="#ffbd2e"/>
+  <circle cx="62" cy="18" r="6" fill="#27c93f"/>
+  <text class="title" x="420" y="22">coldzero94 — zsh</text>
+
+  <g class="session">
+    <text class="t1" x="24" y="68"><tspan class="p">$</tspan><tspan class="c" dx="8">whoami</tspan></text>
+    <text class="f1" x="24" y="92"><tspan class="hl">Chanyoung Lee</tspan><tspan class="o" dx="6">— AI engineer · RAG &amp; semantic search · agent tooling</tspan></text>
+
+    <text class="t2" x="24" y="128"><tspan class="p">$</tspan><tspan class="c" dx="8">brew install coldzero94/coldframe/cold-frame</tspan></text>
+    <text class="f2" x="24" y="152"><tspan class="o">🍺  cold-frame — local-first memory for AI agents · one SQLite file · offline</tspan></text>
+
+    <text class="t3" x="24" y="188"><tspan class="p">$</tspan><tspan class="c" dx="8">cold-frame recall "what is he building now?"</tspan></text>
+    <text class="f3" x="24" y="212"><tspan class="ac">▸ developer tools that give AI agents memory</tspan></text>
+    <text class="f4" x="24" y="236"><tspan class="o">▸ 3 memories · 12 ms · 0 API calls</tspan></text>
+
+    <g class="f5">
+      <text x="24" y="272"><tspan class="p">$</tspan></text>
+      <rect class="cur" x="40" y="261" width="8" height="15"/>
+    </g>
+  </g>
+</svg>
