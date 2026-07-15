@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 170" width="300" height="170" role="img" aria-label="mindhit — AI-powered mindmaps from your browsing history: Chrome extension capture, 3D galaxy visualization, self-hosted. TypeScript.">
+  <style>
+    text { font: 12px ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }
+    .name { font-size: 15px; font-weight: 600; fill: #e6edf3; }
+    .desc { fill: #8b949e; }
+    .meta { font-size: 11.5px; fill: #8b949e; }
+  </style>
+  <rect x="0.5" y="0.5" width="299" height="169" rx="12" fill="#0d1117" stroke="#30363d"/>
+  <rect x="20" y="23" width="11" height="11" rx="3" fill="#3178c6"/>
+  <text class="name" x="39" y="33">mindhit</text>
+  <text class="desc" x="20" y="64">AI mindmaps generated from your</text>
+  <text class="desc" x="20" y="82">browsing history. Chrome extension</text>
+  <text class="desc" x="20" y="100">capture, 3D galaxy view,</text>
+  <text class="desc" x="20" y="118">self-hosted.</text>
+  <circle cx="24" cy="143" r="4" fill="#3178c6"/>
+  <text class="meta" x="34" y="147">TypeScript</text>
+  <text class="meta" x="280" y="147" text-anchor="end">↗</text>
+</svg>

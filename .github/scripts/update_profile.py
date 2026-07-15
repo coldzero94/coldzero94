@@ -51,6 +51,8 @@ def analyze_language_stats(repos: List[Dict]) -> Dict[str, int]:
     language_totals = defaultdict(int)
 
     for repo in repos:
+        if repo.get('isFork'):
+            continue  # upstream code isn't ours
         languages = repo.get('languages', [])
         for lang in languages:
             lang_name = lang['node']['name']
@@ -209,8 +211,8 @@ def fetch_contribution_days() -> List[Dict]:
     return days
 
 
-def render_stats_strip(days: List[Dict]) -> str:
-    """Render a slim status-bar SVG styled to match assets/terminal-hero.svg"""
+def render_hero_stats(days: List[Dict]) -> str:
+    """Render the status-bar contents of the terminal hero (text + sparkline)"""
     counts = [d["contributionCount"] for d in days]
     total = sum(counts)
     best_day = max(counts)
@@ -221,7 +223,8 @@ def render_stats_strip(days: List[Dict]) -> str:
         streak = streak + 1 if c > 0 else 0
         best_streak = max(best_streak, streak)
 
-    # 30-day sparkline, right-aligned
+    # 30-day sparkline, right-aligned inside the status bar (y 314..334).
+    # sqrt scale so a single huge day doesn't flatten every other bar.
     last30 = counts[-30:]
     max30 = max(max(last30), 1)
     greens = ["#0e4429", "#006d32", "#26a641", "#39d353"]
@@ -229,11 +232,12 @@ def render_stats_strip(days: List[Dict]) -> str:
     for i, c in enumerate(last30):
         x = 609 + i * 7
         if c == 0:
-            bars.append(f'<rect x="{x}" y="50" width="4" height="2" rx="1" fill="#21262d"/>')
+            bars.append(f'<rect x="{x}" y="332" width="4" height="2" rx="1" fill="#30363d"/>')
         else:
-            h = max(4, round(c / max30 * 32))
-            color = greens[min(3, int(c / max30 * 4))]
-            bars.append(f'<rect x="{x}" y="{52 - h}" width="4" height="{h}" rx="1" fill="{color}"/>')
+            ratio = (c / max30) ** 0.5
+            h = max(4, round(ratio * 20))
+            color = greens[min(3, int(ratio * 4))]
+            bars.append(f'<rect x="{x}" y="{334 - h}" width="4" height="{h}" rx="1" fill="{color}"/>')
 
     label = (
         f'<tspan class="n">{total:,}</tspan><tspan class="o"> contributions/yr</tspan>'
@@ -245,32 +249,35 @@ def render_stats_strip(days: List[Dict]) -> str:
         f'<tspan class="n" dx="7">~{avg:.1f}</tspan><tspan class="o">/day</tspan>'
     )
 
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 72" width="840" height="72" role="img" aria-label="GitHub activity: {total:,} contributions in the last year, best day {best_day}, best streak {best_streak} days, about {avg:.1f} per day. Sparkline of the last 30 days.">
-  <style>
-    text {{ font: 13.5px ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }}
-    .p {{ fill: #7ee787; }}
-    .n {{ fill: #7ee787; font-weight: 600; }}
-    .o {{ fill: #8b949e; }}
-  </style>
-  <rect x="0.5" y="0.5" width="839" height="71" rx="10" fill="#0d1117" stroke="#30363d"/>
-  <text x="24" y="41"><tspan class="p">❯</tspan><tspan dx="8">{label}</tspan></text>
-  {"".join(bars)}
-</svg>
-'''
+    return (
+        f'  <text class="st" x="24" y="328"><tspan class="p">❯</tspan><tspan dx="8">{label}</tspan></text>\n'
+        f'  {"".join(bars)}\n'
+    )
 
 
-def update_stats_strip():
-    """Regenerate assets/stats-strip.svg; keep the previous file on failure"""
-    print("📈 Updating stats strip...")
+def update_hero_stats():
+    """Refresh the live status bar inside assets/terminal-hero.svg"""
+    print("📈 Updating hero status bar...")
+    hero_path = "assets/terminal-hero.svg"
     try:
         days = fetch_contribution_days()
-        svg = render_stats_strip(days)
+        stats = render_hero_stats(days)
     except Exception as e:
-        print(f"⚠️  Could not build stats strip ({e}); keeping previous version")
+        print(f"⚠️  Could not build hero stats ({e}); keeping previous version")
         return
-    with open("assets/stats-strip.svg", "w", encoding="utf-8") as f:
+
+    with open(hero_path, "r", encoding="utf-8") as f:
+        svg = f.read()
+
+    pattern = r"(<!-- STATS:START -->\n)(.*?)(  <!-- STATS:END -->)"
+    if not re.search(pattern, svg, re.DOTALL):
+        print("⚠️  STATS markers not found in terminal-hero.svg")
+        return
+    svg = re.sub(pattern, r"\1" + stats + r"\3", svg, flags=re.DOTALL)
+
+    with open(hero_path, "w", encoding="utf-8") as f:
         f.write(svg)
-    print("✅ stats-strip.svg updated!")
+    print("✅ terminal-hero.svg status bar updated!")
 
 
 def update_readme_simple(lang_stats: Dict, repos: List[Dict]):
@@ -336,8 +343,8 @@ def main():
     # Update README
     update_readme_simple(lang_stats, repos)
 
-    # Update the stats-strip SVG
-    update_stats_strip()
+    # Update the hero's live status bar
+    update_hero_stats()
 
     print("\n✨ Profile update complete!")
     print(f"📊 Languages: {len(lang_stats)}")

@@ -2,8 +2,6 @@
   <img src="./assets/terminal-hero.svg" alt="Terminal session — Chanyoung Lee: AI engineer building RAG, semantic search, and agent tooling. brew install coldzero94/coldframe/cold-frame" width="100%"/>
 </a>
 
-<img src="./assets/stats-strip.svg" alt="GitHub activity stats — auto-updated daily" width="100%"/>
-
 AI engineer building production RAG and semantic-search systems — optimizing retrieval quality, latency, and cost end to end. I ship with Python (FastAPI), Go, and TypeScript (Next.js).
 
 - 🔭 **Currently building** developer tools for AI agents
@@ -16,9 +14,11 @@ AI engineer building production RAG and semantic-search systems — optimizing r
 
 ## Selected work
 
-- **[cold-frame](https://github.com/coldzero94/cold-frame)** — Local-first memory for AI agents: one SQLite file you own, offline, no API key. Ships as a Claude Code plugin for automatic recall + capture. `brew install coldzero94/coldframe/cold-frame`
-- **[mindhit](https://github.com/coldzero94/mindhit)** — AI-powered mindmaps from your browsing history: self-hosted, Chrome extension capture, interactive 3D visualization
-- **[lockwatcher](https://github.com/coldzero94/lockwatcher)** — macOS background watcher that keeps Claude Code working while your screen is locked
+<p align="center">
+  <a href="https://github.com/coldzero94/cold-frame"><img src="./assets/card-cold-frame.svg" alt="cold-frame — local-first memory for AI agents: one SQLite file, offline, no API key. brew install cold-frame" width="32%"/></a>
+  <a href="https://github.com/coldzero94/mindhit"><img src="./assets/card-mindhit.svg" alt="mindhit — AI mindmaps from your browsing history: Chrome extension capture, 3D galaxy view, self-hosted" width="32%"/></a>
+  <a href="https://github.com/coldzero94/lockwatcher"><img src="./assets/card-lockwatcher.svg" alt="lockwatcher — macOS background watcher that keeps Claude Code working while the screen is locked" width="32%"/></a>
+</p>
 
 <!-- AUTO-UPDATE:WRITING:START -->
 
@@ -28,16 +28,16 @@ AI engineer building production RAG and semantic-search systems — optimizing r
 <summary>📊 Language breakdown — auto-updated daily</summary>
 <div align="left">
 
-**Total Code Across All Repositories: 38.9 MB** _(Auto-updated: 2026-07-15)_
+**Total Code Across All Repositories: 4.7 MB** _(Auto-updated: 2026-07-15)_
 
 <!-- Custom Language Stats with Animation -->
 ```
-Python       ████████████████████░░░░░░░░░░░░░░░░ 58.0%  (AI/ML, FastAPI, Django)
-TypeScript   ██████████░░░░░░░░░░░░░░░░░░░░░░░░░░ 28.1%  (Next.js, React, Node.js)
-JavaScript   ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  8.2%  (Frontend, Web)
-Go           █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  3.3%  (Backend, Microservices)
-Java         ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  0.6%  (Backend, Spring)
-Others       ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  1.9%  (Shell, Docker, Config)
+TypeScript   █████████████░░░░░░░░░░░░░░░░░░░░░░░ 37.5%  (Next.js, React, Node.js)
+Go           █████████░░░░░░░░░░░░░░░░░░░░░░░░░░░ 27.2%  (Backend, Microservices)
+Python       █████████░░░░░░░░░░░░░░░░░░░░░░░░░░░ 26.8%  (AI/ML, FastAPI, Django)
+Shell        ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  1.8%  (Automation)
+Kotlin       ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  1.5%  (Development)
+Others       █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  5.2%  (Shell, Docker, Config)
 ```
 
 </div>
