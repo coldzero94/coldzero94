@@ -32,7 +32,7 @@ Others       ░░░░░░░░░░░░░░░░░░░░░░�
 </details>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/coldzero94/coldzero94/output/github-contribution-grid-dino-dark.svg" />
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/coldzero94/coldzero94/output/github-contribution-grid-dino.svg" />
-  <img alt="My GitHub contributions as a dino run 🦖" src="https://raw.githubusercontent.com/coldzero94/coldzero94/output/github-contribution-grid-dino.svg" width="100%"/>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/coldzero94/coldzero94/output/github-contribution-grid-snake-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/coldzero94/coldzero94/output/github-contribution-grid-snake.svg" />
+  <img alt="Snake eating my GitHub contributions" src="https://raw.githubusercontent.com/coldzero94/coldzero94/output/github-contribution-grid-snake.svg" width="100%"/>
 </picture>
