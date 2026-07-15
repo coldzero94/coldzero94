@@ -195,6 +195,84 @@ def fetch_velog_writing(max_posts: int = 5, max_age_days: int = 540) -> str:
     return "## ✍️ Latest writing\n\n| Date | Post |\n| --- | --- |\n" + "\n".join(rows)
 
 
+def fetch_contribution_days() -> List[Dict]:
+    """Daily contribution counts for the past year via GraphQL"""
+    query = (
+        'query { user(login:"coldzero94") { contributionsCollection { '
+        "contributionCalendar { totalContributions weeks { contributionDays "
+        "{ date contributionCount } } } } } }"
+    )
+    output = run_command(["gh", "api", "graphql", "-f", f"query={query}"])
+    calendar = json.loads(output)["data"]["user"]["contributionsCollection"]["contributionCalendar"]
+    days = [d for w in calendar["weeks"] for d in w["contributionDays"]]
+    days.sort(key=lambda d: d["date"])
+    return days
+
+
+def render_stats_strip(days: List[Dict]) -> str:
+    """Render a slim status-bar SVG styled to match assets/terminal-hero.svg"""
+    counts = [d["contributionCount"] for d in days]
+    total = sum(counts)
+    best_day = max(counts)
+    avg = total / max(len(counts), 1)
+
+    best_streak = streak = 0
+    for c in counts:
+        streak = streak + 1 if c > 0 else 0
+        best_streak = max(best_streak, streak)
+
+    # 30-day sparkline, right-aligned
+    last30 = counts[-30:]
+    max30 = max(max(last30), 1)
+    greens = ["#0e4429", "#006d32", "#26a641", "#39d353"]
+    bars = []
+    for i, c in enumerate(last30):
+        x = 609 + i * 7
+        if c == 0:
+            bars.append(f'<rect x="{x}" y="50" width="4" height="2" rx="1" fill="#21262d"/>')
+        else:
+            h = max(4, round(c / max30 * 32))
+            color = greens[min(3, int(c / max30 * 4))]
+            bars.append(f'<rect x="{x}" y="{52 - h}" width="4" height="{h}" rx="1" fill="{color}"/>')
+
+    label = (
+        f'<tspan class="n">{total:,}</tspan><tspan class="o"> contributions/yr</tspan>'
+        f'<tspan class="o" dx="7">·</tspan>'
+        f'<tspan class="n" dx="7">{best_day}</tspan><tspan class="o"> best day</tspan>'
+        f'<tspan class="o" dx="7">·</tspan>'
+        f'<tspan class="n" dx="7">{best_streak}d</tspan><tspan class="o"> streak</tspan>'
+        f'<tspan class="o" dx="7">·</tspan>'
+        f'<tspan class="n" dx="7">~{avg:.1f}</tspan><tspan class="o">/day</tspan>'
+    )
+
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 72" width="840" height="72" role="img" aria-label="GitHub activity: {total:,} contributions in the last year, best day {best_day}, best streak {best_streak} days, about {avg:.1f} per day. Sparkline of the last 30 days.">
+  <style>
+    text {{ font: 13.5px ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }}
+    .p {{ fill: #7ee787; }}
+    .n {{ fill: #7ee787; font-weight: 600; }}
+    .o {{ fill: #8b949e; }}
+  </style>
+  <rect x="0.5" y="0.5" width="839" height="71" rx="10" fill="#0d1117" stroke="#30363d"/>
+  <text x="24" y="41"><tspan class="p">❯</tspan><tspan dx="8">{label}</tspan></text>
+  {"".join(bars)}
+</svg>
+'''
+
+
+def update_stats_strip():
+    """Regenerate assets/stats-strip.svg; keep the previous file on failure"""
+    print("📈 Updating stats strip...")
+    try:
+        days = fetch_contribution_days()
+        svg = render_stats_strip(days)
+    except Exception as e:
+        print(f"⚠️  Could not build stats strip ({e}); keeping previous version")
+        return
+    with open("assets/stats-strip.svg", "w", encoding="utf-8") as f:
+        f.write(svg)
+    print("✅ stats-strip.svg updated!")
+
+
 def update_readme_simple(lang_stats: Dict, repos: List[Dict]):
     """Update README.md with new language stats using simple pattern matching"""
     print("📝 Updating README.md...")
@@ -257,6 +335,9 @@ def main():
 
     # Update README
     update_readme_simple(lang_stats, repos)
+
+    # Update the stats-strip SVG
+    update_stats_strip()
 
     print("\n✨ Profile update complete!")
     print(f"📊 Languages: {len(lang_stats)}")

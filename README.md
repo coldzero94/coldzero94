@@ -2,6 +2,8 @@
   <img src="./assets/terminal-hero.svg" alt="Terminal session — Chanyoung Lee: AI engineer building RAG, semantic search, and agent tooling. brew install coldzero94/coldframe/cold-frame" width="100%"/>
 </a>
 
+<img src="./assets/stats-strip.svg" alt="GitHub activity stats — auto-updated daily" width="100%"/>
+
 AI engineer building production RAG and semantic-search systems — optimizing retrieval quality, latency, and cost end to end. I ship with Python (FastAPI), Go, and TypeScript (Next.js).
 
 - 🔭 **Currently building** developer tools for AI agents
@@ -40,8 +42,6 @@ Others       ░░░░░░░░░░░░░░░░░░░░░░�
 
 </div>
 </details>
-
-<img src="./github-isocalendar.svg" alt="Isometric contribution calendar — full year" width="100%"/>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/coldzero94/coldzero94/output/github-contribution-grid-snake-dark.svg" />
