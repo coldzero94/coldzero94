@@ -26,16 +26,16 @@ AI engineer building production RAG and semantic-search systems — optimizing r
 <summary>📊 Language breakdown — auto-updated daily</summary>
 <div align="left">
 
-**Total Code Across All Repositories: 39.7 MB** _(Auto-updated: 2026-07-15)_
+**Total Code Across All Repositories: 38.9 MB** _(Auto-updated: 2026-07-15)_
 
 <!-- Custom Language Stats with Animation -->
 ```
 Python       ████████████████████░░░░░░░░░░░░░░░░ 58.0%  (AI/ML, FastAPI, Django)
-TypeScript   ██████████░░░░░░░░░░░░░░░░░░░░░░░░░░ 28.2%  (Next.js, React, Node.js)
-JavaScript   ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  8.0%  (Frontend, Web)
-Go           █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  3.2%  (Backend, Microservices)
+TypeScript   ██████████░░░░░░░░░░░░░░░░░░░░░░░░░░ 28.1%  (Next.js, React, Node.js)
+JavaScript   ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  8.2%  (Frontend, Web)
+Go           █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  3.3%  (Backend, Microservices)
 Java         ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  0.6%  (Backend, Spring)
-Others       ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  2.0%  (Shell, Docker, Config)
+Others       ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  1.9%  (Shell, Docker, Config)
 ```
 
 </div>
