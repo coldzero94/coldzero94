@@ -24,8 +24,8 @@ AI engineer building production RAG and semantic-search systems — optimizing r
 
 <!-- AUTO-UPDATE:WRITING:END -->
 
-<details>
-<summary>📊 Language breakdown — auto-updated daily</summary>
+## Languages
+
 <div align="left">
 
 **Total Code Across All Repositories: 4.0 MB** _(Auto-updated: 2026-07-15)_
@@ -41,7 +41,6 @@ Others       █░░░░░░░░░░░░░░░░░░░░░�
 ```
 
 </div>
-</details>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/coldzero94/coldzero94/output/github-contribution-grid-snake-dark.svg" />
