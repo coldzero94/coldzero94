@@ -9,7 +9,7 @@ AI engineer building production RAG and semantic-search systems — optimizing r
 - 📫 **Reach me** on [LinkedIn](https://www.linkedin.com/in/coldzero)
 
 <!-- AUTO-UPDATE:SHIPPING:START -->
-🔨 **Recent pushes:** [nexus](https://github.com/coldzero94/nexus) `2026-07-16` · [cold-frame](https://github.com/coldzero94/cold-frame) `2026-07-13` · [homebrew-coldframe](https://github.com/coldzero94/homebrew-coldframe) `2026-07-03`
+🔨 **Recent pushes:** [nexus](https://github.com/coldzero94/nexus) `2026-07-20` · [mindhit](https://github.com/coldzero94/mindhit) `2026-07-20` · [runwork](https://github.com/coldzero94/runwork) `2026-07-20`
 <!-- AUTO-UPDATE:SHIPPING:END -->
 
 ## Selected work
@@ -28,16 +28,16 @@ AI engineer building production RAG and semantic-search systems — optimizing r
 
 <div align="left">
 
-**Total Code Across All Repositories: 4.2 MB** _(Auto-updated: 2026-07-19)_
+**Total Code Across All Repositories: 4.3 MB** _(Auto-updated: 2026-07-20)_
 
 <!-- Custom Language Stats with Animation -->
 ```
-TypeScript   █████████████░░░░░░░░░░░░░░░░░░░░░░░ 36.4%  (Next.js, React, Node.js)
-Go           ██████████░░░░░░░░░░░░░░░░░░░░░░░░░░ 30.3%  (Backend, Microservices)
-Python       ███████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 20.2%  (AI/ML, FastAPI, Django)
-Kotlin       ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  7.0%  (Development)
+TypeScript   ████████████░░░░░░░░░░░░░░░░░░░░░░░░ 36.0%  (Next.js, React, Node.js)
+Go           ██████████░░░░░░░░░░░░░░░░░░░░░░░░░░ 29.9%  (Backend, Microservices)
+Python       ███████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 19.9%  (AI/ML, FastAPI, Django)
+Kotlin       ███░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  8.3%  (Development)
 HTML         ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  1.6%  (Web)
-Others       █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  4.4%  (Shell, Docker, Config)
+Others       █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  4.3%  (Shell, Docker, Config)
 ```
 
 </div>
