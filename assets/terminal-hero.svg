@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 344" width="840" height="344" role="img" aria-label="Terminal session: whoami — Chanyoung Lee, AI engineer building RAG, semantic search, and agent tooling. brew install coldzero94/coldframe/cold-frame. Status bar shows GitHub activity for the last year with a 30-day sparkline.">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 344" width="840" height="344" role="img" aria-label="Terminal session: whoami — Chanyoung Lee, AI agent platform engineer (FDE at VESSL AI), shipping agents in production cars, air-gapped government clouds, MCP servers, and eval infra. brew install coldzero94/coldframe/cold-frame. Status bar shows GitHub activity for the last year with a 30-day sparkline.">
   <style>
     .win { fill: #0d1117; stroke: #30363d; stroke-width: 1; }
     .bar { fill: #161b22; }
@@ -44,18 +44,19 @@
 
   <g class="session">
     <text class="t1" x="24" y="68"><tspan class="p">$</tspan><tspan class="c" dx="8">whoami</tspan></text>
-    <text class="f1" x="24" y="92"><tspan class="hl">Chanyoung Lee</tspan><tspan class="o" dx="6">— AI engineer · RAG &amp; semantic search · agent tooling</tspan></text>
+    <text class="f1" x="24" y="92"><tspan class="hl">Chanyoung Lee</tspan><tspan class="o" dx="6">— AI agent platform engineer · FDE @ VESSL AI</tspan></text>
+    <text class="f1" x="24" y="116"><tspan class="o">agents in production cars · air-gapped gov clouds · MCP servers · eval infra</tspan></text>
 
-    <text class="t2" x="24" y="128"><tspan class="p">$</tspan><tspan class="c" dx="8">brew install coldzero94/coldframe/cold-frame</tspan></text>
-    <text class="f2" x="24" y="152"><tspan class="o">🍺  cold-frame — local-first memory for AI agents · one SQLite file · offline</tspan></text>
+    <text class="t2" x="24" y="148"><tspan class="p">$</tspan><tspan class="c" dx="8">brew install coldzero94/coldframe/cold-frame</tspan></text>
+    <text class="f2" x="24" y="172"><tspan class="o">🍺  cold-frame — local-first memory for AI agents · one SQLite file · offline</tspan></text>
 
-    <text class="t3" x="24" y="188"><tspan class="p">$</tspan><tspan class="c" dx="8">cold-frame recall "what is he building now?"</tspan></text>
-    <text class="f3" x="24" y="212"><tspan class="ac">▸ developer tools that give AI agents memory</tspan></text>
-    <text class="f4" x="24" y="236"><tspan class="o">▸ 3 memories · 12 ms · 0 API calls</tspan></text>
+    <text class="t3" x="24" y="204"><tspan class="p">$</tspan><tspan class="c" dx="8">cold-frame recall "what is he building now?"</tspan></text>
+    <text class="f3" x="24" y="228"><tspan class="ac">▸ developer tools that give AI agents memory</tspan></text>
+    <text class="f4" x="24" y="252"><tspan class="o">▸ 3 memories · 12 ms · 0 API calls</tspan></text>
 
     <g class="f5">
-      <text x="24" y="272"><tspan class="p">$</tspan></text>
-      <rect class="cur" x="40" y="261" width="8" height="15"/>
+      <text x="24" y="284"><tspan class="p">$</tspan></text>
+      <rect class="cur" x="40" y="273" width="8" height="15"/>
     </g>
   </g>
 

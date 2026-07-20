@@ -1,8 +1,8 @@
 <a href="https://github.com/coldzero94/cold-frame">
-  <img src="./assets/terminal-hero.svg" alt="Terminal session — Chanyoung Lee: AI engineer building RAG, semantic search, and agent tooling. brew install coldzero94/coldframe/cold-frame" width="100%"/>
+  <img src="./assets/terminal-hero.svg" alt="Terminal session — Chanyoung Lee: AI agent platform engineer (FDE at VESSL AI) shipping agents in production cars and air-gapped government clouds. brew install coldzero94/coldframe/cold-frame" width="100%"/>
 </a>
 
-AI engineer building production RAG and semantic-search systems — optimizing retrieval quality, latency, and cost end to end. I ship with Python (FastAPI), Go, and TypeScript (Next.js).
+AI agent platform engineer (Forward Deployed Engineer at VESSL AI) building agent platforms end to end — the agents, MCP servers, and eval infra behind them — shipping in production vehicles and air-gapped government clouds. I ship with Python (FastAPI), Go, and TypeScript (Next.js).
 
 - 🔭 **Currently building** developer tools for AI agents
 - ✍️ **I write** about AI engineering at [velog.io/@coldzero](https://velog.io/@coldzero)
@@ -41,9 +41,3 @@ Others       █░░░░░░░░░░░░░░░░░░░░░�
 ```
 
 </div>
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/coldzero94/coldzero94/output/github-contribution-grid-snake-dark.svg" />
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/coldzero94/coldzero94/output/github-contribution-grid-snake.svg" />
-  <img alt="Snake eating my GitHub contributions" src="https://raw.githubusercontent.com/coldzero94/coldzero94/output/github-contribution-grid-snake.svg" width="100%"/>
-</picture>
