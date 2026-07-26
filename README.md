@@ -9,7 +9,7 @@ AI agent platform engineer (Forward Deployed Engineer at VESSL AI) building agen
 - 📫 **Reach me** on [LinkedIn](https://www.linkedin.com/in/coldzero)
 
 <!-- AUTO-UPDATE:SHIPPING:START -->
-🔨 **Recent pushes:** [push-point](https://github.com/coldzero94/push-point) `2026-07-25` · [nexus](https://github.com/coldzero94/nexus) `2026-07-24` · [mindhit](https://github.com/coldzero94/mindhit) `2026-07-20`
+🔨 **Recent pushes:** [push-point](https://github.com/coldzero94/push-point) `2026-07-26` · [nexus](https://github.com/coldzero94/nexus) `2026-07-24` · [mindhit](https://github.com/coldzero94/mindhit) `2026-07-20`
 <!-- AUTO-UPDATE:SHIPPING:END -->
 
 ## Selected work
@@ -28,16 +28,16 @@ AI agent platform engineer (Forward Deployed Engineer at VESSL AI) building agen
 
 <div align="left">
 
-**Total Code Across All Repositories: 5.1 MB** _(Auto-updated: 2026-07-25)_
+**Total Code Across All Repositories: 5.7 MB** _(Auto-updated: 2026-07-26)_
 
 <!-- Custom Language Stats with Animation -->
 ```
-TypeScript   ████████████░░░░░░░░░░░░░░░░░░░░░░░░ 34.8%  (Next.js, React, Node.js)
-Go           ███████████░░░░░░░░░░░░░░░░░░░░░░░░░ 32.8%  (Backend, Microservices)
-Python       ██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 16.8%  (AI/ML, FastAPI, Django)
-Kotlin       ███░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  9.3%  (Development)
-HTML         ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  1.9%  (Web)
-Others       █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  4.5%  (Shell, Docker, Config)
+Go           ███████████░░░░░░░░░░░░░░░░░░░░░░░░░ 32.4%  (Backend, Microservices)
+TypeScript   ███████████░░░░░░░░░░░░░░░░░░░░░░░░░ 31.3%  (Next.js, React, Node.js)
+Python       █████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ 15.1%  (AI/ML, FastAPI, Django)
+Kotlin       ███░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  8.4%  (Development)
+Swift        ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  6.9%  (Development)
+Others       ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  6.0%  (Shell, Docker, Config)
 ```
 
 </div>
