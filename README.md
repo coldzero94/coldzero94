@@ -14,7 +14,7 @@ By day I'm a Forward Deployed Engineer at VESSL AI, building agent platforms end
 - 📫 **Reach me** on [LinkedIn](https://www.linkedin.com/in/coldzero)
 
 <!-- AUTO-UPDATE:SHIPPING:START -->
-🔨 **Recent pushes:** [nexus](https://github.com/coldzero94/nexus) `2026-07-27` · [push-point](https://github.com/coldzero94/push-point) `2026-07-27` · [mindhit](https://github.com/coldzero94/mindhit) `2026-07-20`
+🔨 **Recent pushes:** [push-point](https://github.com/coldzero94/push-point) `2026-07-27` · [nexus](https://github.com/coldzero94/nexus) `2026-07-27` · [mindhit](https://github.com/coldzero94/mindhit) `2026-07-20`
 <!-- AUTO-UPDATE:SHIPPING:END -->
 
 ## Selected work
