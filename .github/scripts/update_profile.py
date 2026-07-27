@@ -229,13 +229,16 @@ def build_language_segments(lang_stats: Dict[str, int]) -> List[Dict]:
     return order_ring(segments)
 
 
-def render_language_donut(segments: List[Dict], total_mb: float) -> str:
+def render_language_donut(segments: List[Dict], total_mb: float, repo_count: int) -> str:
     """Donut + legend as a standalone SVG.
 
-    The ring is the at-a-glance part-to-whole; the exact share is never left to
-    the eye, since every segment is direct-labelled in the legend beside it.
+    The hole holds the headline the chart is actually making — which language
+    most of this code is — rather than a file size, which is a fact about disk
+    and not about the work. The ring is the at-a-glance part-to-whole; the
+    exact share is never left to the eye, since every segment is
+    direct-labelled in the legend beside it.
     """
-    cx, cy, r, width = 132, 125, 64, 24
+    cx, cy, r, width = 132, 125, 66, 22
     circumference = 2 * math.pi * r
     gap = 3.0  # surface gap between segments, not a border around them
 
@@ -260,33 +263,40 @@ def render_language_donut(segments: List[Dict], total_mb: float) -> str:
             f'  <text class="desc" x="470" y="{y}">{seg["desc"]}</text>'
         )
 
+    # The headline is the biggest named language — Others is a bucket, never
+    # the answer to "what does he write?".
+    named = [s for s in segments if s["name"] != "Others"]
+    lead = max(named, key=lambda s: s["pct"]) if named else segments[0]
+
     label = " · ".join(f'{s["name"]} {s["pct"]:.1f}%' for s in segments)
     updated = datetime.now().strftime("%Y-%m-%d")
 
-    return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 250" width="840" height="250" role="img" aria-label="Share of code by language across all of coldzero94's non-fork repositories, {total_mb:.1f} MB in total: {label}. Auto-updated {updated}.">
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 250" width="840" height="250" role="img" aria-label="Share of code by language across coldzero94's {repo_count} non-fork repositories, {total_mb:.1f} MB in total. {lead["name"]} leads at {lead["pct"]:.1f}%. Full breakdown: {label}. Auto-updated {updated}.">
   <style>
     text {{ font: 13px ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }}
     .name  {{ fill: #e6edf3; }}
     .pct   {{ fill: #e6edf3; text-anchor: end; font-variant-numeric: tabular-nums; }}
     .desc  {{ fill: #8b949e; font-size: 12px; }}
-    .total {{ fill: #e6edf3; font-size: 20px; font-weight: 600; text-anchor: middle; }}
-    .unit  {{ fill: #8b949e; font-size: 11px; text-anchor: middle; }}
+    .lead  {{ fill: #e6edf3; font-size: 20px; font-weight: 600; text-anchor: middle; }}
+    .share {{ fill: #e6edf3; font-size: 13px; text-anchor: middle; }}
+    .of    {{ fill: #8b949e; font-size: 10.5px; text-anchor: middle; }}
     .foot  {{ fill: #6e7681; font-size: 11.5px; }}
   </style>
   <rect x="0.5" y="0.5" width="839" height="249" rx="12" fill="#0d1117" stroke="#30363d"/>
 
   <circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="#21262d" stroke-width="{width}"/>
 {chr(10).join(arcs)}
-  <text class="total" x="{cx}" y="{cy - 3}">{total_mb:.1f} MB</text>
-  <text class="unit" x="{cx}" y="{cy + 16}">total code</text>
+  <text class="lead" x="{cx}" y="{cy - 11}">{lead["name"]}</text>
+  <text class="share" x="{cx}" y="{cy + 7}">{lead["pct"]:.1f}%</text>
+  <text class="of" x="{cx}" y="{cy + 23}">of my code</text>
 
 {chr(10).join(rows)}
-  <text class="foot" x="272" y="230">auto-updated {updated} · public + private repos, forks excluded</text>
+  <text class="foot" x="272" y="230">auto-updated {updated} · {total_mb:.1f} MB across {repo_count} repos, forks excluded</text>
 </svg>
 """
 
 
-def update_language_donut(lang_stats: Dict[str, int]):
+def update_language_donut(lang_stats: Dict[str, int], repos: List[Dict]):
     """Regenerate assets/languages-donut.svg from the language totals"""
     print("🍩 Updating language donut...")
     segments = build_language_segments(lang_stats)
@@ -294,10 +304,14 @@ def update_language_donut(lang_stats: Dict[str, int]):
         print("⚠️  No language data; keeping previous donut")
         return
 
+    # Count the repos the byte totals actually came from — analyze_language_stats
+    # skips forks, so counting everything would overstate the footer.
+    repo_count = sum(1 for r in repos if not r.get("isFork"))
     total_mb = sum(lang_stats.values()) / 1_000_000
     with open("assets/languages-donut.svg", "w", encoding="utf-8") as f:
-        f.write(render_language_donut(segments, total_mb))
-    print(f"✅ languages-donut.svg updated ({len(segments)} segments, {total_mb:.1f} MB)")
+        f.write(render_language_donut(segments, total_mb, repo_count))
+    print(f"✅ languages-donut.svg updated ({len(segments)} segments, "
+          f"{total_mb:.1f} MB across {repo_count} repos)")
 
 
 def update_readme_section(content: str, section_marker: str, new_content: str) -> str:
@@ -502,7 +516,7 @@ def main():
     update_readme_simple(repos)
 
     # Redraw the language donut
-    update_language_donut(lang_stats)
+    update_language_donut(lang_stats, repos)
 
     # Update the hero's live status bar
     update_hero_stats()
