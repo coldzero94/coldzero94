@@ -229,7 +229,8 @@ def build_language_segments(lang_stats: Dict[str, int]) -> List[Dict]:
     return order_ring(segments)
 
 
-def render_language_donut(segments: List[Dict], total_mb: float, repo_count: int) -> str:
+def render_language_donut(segments: List[Dict], total_mb: float,
+                          repo_count: int, scope: str) -> str:
     """Donut + legend as a standalone SVG.
 
     The hole holds the headline the chart is actually making — which language
@@ -271,7 +272,7 @@ def render_language_donut(segments: List[Dict], total_mb: float, repo_count: int
     label = " · ".join(f'{s["name"]} {s["pct"]:.1f}%' for s in segments)
     updated = datetime.now().strftime("%Y-%m-%d")
 
-    return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 250" width="840" height="250" role="img" aria-label="Share of code by language across coldzero94's {repo_count} non-fork repositories, {total_mb:.1f} MB in total. {lead["name"]} leads at {lead["pct"]:.1f}%. Full breakdown: {label}. Auto-updated {updated}.">
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 250" width="840" height="250" role="img" aria-label="Share of code by language across coldzero94's {repo_count} non-fork {scope}, {total_mb:.1f} MB in total. {lead["name"]} leads at {lead["pct"]:.1f}%. Full breakdown: {label}. Auto-updated {updated}.">
   <style>
     text {{ font: 13px ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }}
     .name  {{ fill: #e6edf3; }}
@@ -291,7 +292,7 @@ def render_language_donut(segments: List[Dict], total_mb: float, repo_count: int
   <text class="of" x="{cx}" y="{cy + 23}">of my code</text>
 
 {chr(10).join(rows)}
-  <text class="foot" x="272" y="230">auto-updated {updated} · {total_mb:.1f} MB across {repo_count} repos, forks excluded</text>
+  <text class="foot" x="272" y="230">auto-updated {updated} · {total_mb:.1f} MB across {repo_count} {scope}, forks excluded</text>
 </svg>
 """
 
@@ -306,12 +307,20 @@ def update_language_donut(lang_stats: Dict[str, int], repos: List[Dict]):
 
     # Count the repos the byte totals actually came from — analyze_language_stats
     # skips forks, so counting everything would overstate the footer.
-    repo_count = sum(1 for r in repos if not r.get("isFork"))
+    counted = [r for r in repos if not r.get("isFork")]
+
+    # In Actions the default GITHUB_TOKEN is scoped to this repository, so
+    # `gh repo list` comes back public-only and the total is a slice of the
+    # real one. Say which it is rather than claim a coverage we don't have —
+    # and let it correct itself if the workflow is ever given a wider token.
+    sees_private = any(r.get("isPrivate") for r in counted)
+    scope = "repos" if sees_private else "public repos"
+
     total_mb = sum(lang_stats.values()) / 1_000_000
     with open("assets/languages-donut.svg", "w", encoding="utf-8") as f:
-        f.write(render_language_donut(segments, total_mb, repo_count))
+        f.write(render_language_donut(segments, total_mb, len(counted), scope))
     print(f"✅ languages-donut.svg updated ({len(segments)} segments, "
-          f"{total_mb:.1f} MB across {repo_count} repos)")
+          f"{total_mb:.1f} MB across {len(counted)} {scope})")
 
 
 def update_readme_section(content: str, section_marker: str, new_content: str) -> str:
