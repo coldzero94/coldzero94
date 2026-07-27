@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 170" width="300" height="170" role="img" aria-label="push-point — self-hosted link archive that auto-tags what you save: no LLM API, one Go binary on SQLite. just dev. Go.">
+  <style>
+    text { font: 12px ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }
+    .name { font-size: 15px; font-weight: 600; fill: #e6edf3; }
+    .desc { fill: #8b949e; }
+    .cmd  { font-size: 11.5px; fill: #7ee787; }
+    .meta { font-size: 11.5px; fill: #8b949e; }
+  </style>
+  <rect x="0.5" y="0.5" width="299" height="169" rx="12" fill="#0d1117" stroke="#30363d"/>
+  <rect x="20" y="23" width="11" height="11" rx="3" fill="#00ADD8"/>
+  <text class="name" x="39" y="33">push-point</text>
+  <text class="desc" x="20" y="64">Self-hosted link archive that</text>
+  <text class="desc" x="20" y="82">auto-tags what you save — no</text>
+  <text class="desc" x="20" y="100">LLM API, one Go binary.</text>
+  <text class="cmd" x="20" y="124">$ just dev</text>
+  <circle cx="24" cy="143" r="4" fill="#00ADD8"/>
+  <text class="meta" x="34" y="147">Go</text>
+  <text class="meta" x="280" y="147" text-anchor="end">↗</text>
+</svg>

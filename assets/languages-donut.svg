@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 250" width="840" height="250" role="img" aria-label="Share of code by language across all of coldzero94's non-fork repositories, 6.7 MB in total: Go 30.3% · TypeScript 29.8% · Python 18.7% · Swift 7.5% · Kotlin 7.1% · Others 6.6%. Auto-updated 2026-07-27.">
+  <style>
+    text { font: 13px ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }
+    .name  { fill: #e6edf3; }
+    .pct   { fill: #e6edf3; text-anchor: end; font-variant-numeric: tabular-nums; }
+    .desc  { fill: #8b949e; font-size: 12px; }
+    .total { fill: #e6edf3; font-size: 20px; font-weight: 600; text-anchor: middle; }
+    .unit  { fill: #8b949e; font-size: 11px; text-anchor: middle; }
+    .foot  { fill: #6e7681; font-size: 11.5px; }
+  </style>
+  <rect x="0.5" y="0.5" width="839" height="249" rx="12" fill="#0d1117" stroke="#30363d"/>
+
+  <circle cx="132" cy="125" r="64" fill="none" stroke="#21262d" stroke-width="24"/>
+  <circle cx="132" cy="125" r="64" fill="none" stroke="#3987e5" stroke-width="24" stroke-dasharray="118.95 402.12" stroke-dashoffset="-0.00" transform="rotate(-90 132 125)"/>
+  <circle cx="132" cy="125" r="64" fill="none" stroke="#d95926" stroke-width="24" stroke-dasharray="116.79 402.12" stroke-dashoffset="-121.95" transform="rotate(-90 132 125)"/>
+  <circle cx="132" cy="125" r="64" fill="none" stroke="#199e70" stroke-width="24" stroke-dasharray="72.33 402.12" stroke-dashoffset="-241.75" transform="rotate(-90 132 125)"/>
+  <circle cx="132" cy="125" r="64" fill="none" stroke="#9085e9" stroke-width="24" stroke-dasharray="27.01 402.12" stroke-dashoffset="-317.08" transform="rotate(-90 132 125)"/>
+  <circle cx="132" cy="125" r="64" fill="none" stroke="#c98500" stroke-width="24" stroke-dasharray="25.66 402.12" stroke-dashoffset="-347.09" transform="rotate(-90 132 125)"/>
+  <circle cx="132" cy="125" r="64" fill="none" stroke="#6E7681" stroke-width="24" stroke-dasharray="23.37 402.12" stroke-dashoffset="-375.75" transform="rotate(-90 132 125)"/>
+  <text class="total" x="132" y="122">6.7 MB</text>
+  <text class="unit" x="132" y="141">total code</text>
+
+  <rect x="272" y="32" width="12" height="12" rx="3" fill="#3987e5"/>
+  <text class="name" x="294" y="42">Go</text>
+  <text class="pct" x="452" y="42">30.3%</text>
+  <text class="desc" x="470" y="42">Backend, single-binary services</text>
+  <rect x="272" y="64" width="12" height="12" rx="3" fill="#d95926"/>
+  <text class="name" x="294" y="74">TypeScript</text>
+  <text class="pct" x="452" y="74">29.8%</text>
+  <text class="desc" x="470" y="74">Next.js, React, Node.js</text>
+  <rect x="272" y="96" width="12" height="12" rx="3" fill="#199e70"/>
+  <text class="name" x="294" y="106">Python</text>
+  <text class="pct" x="452" y="106">18.7%</text>
+  <text class="desc" x="470" y="106">AI/ML, FastAPI, Django</text>
+  <rect x="272" y="128" width="12" height="12" rx="3" fill="#9085e9"/>
+  <text class="name" x="294" y="138">Swift</text>
+  <text class="pct" x="452" y="138">7.5%</text>
+  <text class="desc" x="470" y="138">iOS, SwiftUI, macOS</text>
+  <rect x="272" y="160" width="12" height="12" rx="3" fill="#c98500"/>
+  <text class="name" x="294" y="170">Kotlin</text>
+  <text class="pct" x="452" y="170">7.1%</text>
+  <text class="desc" x="470" y="170">Android, JVM services</text>
+  <rect x="272" y="192" width="12" height="12" rx="3" fill="#6E7681"/>
+  <text class="name" x="294" y="202">Others</text>
+  <text class="pct" x="452" y="202">6.6%</text>
+  <text class="desc" x="470" y="202">Shell, HTML, CSS, +10 more</text>
+  <text class="foot" x="272" y="230">auto-updated 2026-07-27 · public + private repos, forks excluded</text>
+</svg>
