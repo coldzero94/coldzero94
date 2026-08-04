@@ -10,7 +10,8 @@ By day I'm a Forward Deployed Engineer at VESSL AI, building agent platforms end
 
 - 🔭 **Currently building** developer tools I use every day — a link archive, memory for AI agents, macOS glue
 - 📐 **How I work** — no unmeasured "seems faster": a performance or quality claim comes with the number and the command that produced it
-- 📄 **Portfolio & resume** — [coldzero94.github.io](https://coldzero94.github.io) · the agent builders, MCP servers and eval infra in detail
+- 📄 **Resume** — [coldzero94.github.io/resume](https://coldzero94.github.io/resume.html)
+- 🗂️ **Portfolio** — [coldzero94.github.io](https://coldzero94.github.io) · the agent builders, MCP servers and eval infra in detail
 - 📫 **Reach me** on [LinkedIn](https://www.linkedin.com/in/coldzero)
 
 <!-- AUTO-UPDATE:SHIPPING:START -->
