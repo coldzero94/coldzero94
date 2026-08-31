@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 250" width="840" height="250" role="img" aria-label="Share of code by language across coldzero94's 23 non-fork public repos, 8.0 MB in total. Go leads at 28.3%. Full breakdown: Go 28.3% · TypeScript 23.8% · Others 7.8% · Kotlin 17.3% · Swift 10.9% · Python 11.9%. Auto-updated 2026-08-30.">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 250" width="840" height="250" role="img" aria-label="Share of code by language across coldzero94's 23 non-fork public repos, 8.0 MB in total. Go leads at 28.3%. Full breakdown: Go 28.3% · TypeScript 23.8% · Others 7.8% · Kotlin 17.3% · Swift 10.9% · Python 11.9%. Auto-updated 2026-08-31.">
   <style>
     text { font: 13px ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }
     .name  { fill: #e6edf3; }
@@ -46,5 +46,5 @@
   <text class="name" x="294" y="202">Python</text>
   <text class="pct" x="452" y="202">11.9%</text>
   <text class="desc" x="470" y="202">AI/ML, FastAPI, Django</text>
-  <text class="foot" x="272" y="230">auto-updated 2026-08-30 · 8.0 MB across 23 public repos, forks excluded</text>
+  <text class="foot" x="272" y="230">auto-updated 2026-08-31 · 8.0 MB across 23 public repos, forks excluded</text>
 </svg>
