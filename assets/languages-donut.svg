@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 250" width="840" height="250" role="img" aria-label="Share of code by language across coldzero94's 26 non-fork public repos, 9.2 MB in total. Go leads at 24.5%. Full breakdown: Go 24.5% · TypeScript 22.0% · Others 8.6% · Kotlin 14.9% · Swift 19.7% · Python 10.3%. Auto-updated 2026-11-19.">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 250" width="840" height="250" role="img" aria-label="Share of code by language across coldzero94's 26 non-fork public repos, 9.3 MB in total. Go leads at 24.3%. Full breakdown: Go 24.3% · TypeScript 21.9% · Others 8.6% · Kotlin 14.9% · Swift 20.1% · Python 10.3%. Auto-updated 2026-11-20.">
   <style>
     text { font: 13px ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }
     .name  { fill: #e6edf3; }
@@ -12,23 +12,23 @@
   <rect x="0.5" y="0.5" width="839" height="249" rx="12" fill="#0d1117" stroke="#30363d"/>
 
   <circle cx="132" cy="125" r="66" fill="none" stroke="#21262d" stroke-width="22"/>
-  <circle cx="132" cy="125" r="66" fill="none" stroke="#3987e5" stroke-width="22" stroke-dasharray="98.39 414.69" stroke-dashoffset="-0.00" transform="rotate(-90 132 125)"/>
-  <circle cx="132" cy="125" r="66" fill="none" stroke="#d95926" stroke-width="22" stroke-dasharray="88.10 414.69" stroke-dashoffset="-101.39" transform="rotate(-90 132 125)"/>
-  <circle cx="132" cy="125" r="66" fill="none" stroke="#6E7681" stroke-width="22" stroke-dasharray="32.83 414.69" stroke-dashoffset="-192.50" transform="rotate(-90 132 125)"/>
-  <circle cx="132" cy="125" r="66" fill="none" stroke="#c98500" stroke-width="22" stroke-dasharray="58.95 414.69" stroke-dashoffset="-228.33" transform="rotate(-90 132 125)"/>
-  <circle cx="132" cy="125" r="66" fill="none" stroke="#9085e9" stroke-width="22" stroke-dasharray="78.56 414.69" stroke-dashoffset="-290.28" transform="rotate(-90 132 125)"/>
-  <circle cx="132" cy="125" r="66" fill="none" stroke="#199e70" stroke-width="22" stroke-dasharray="39.85 414.69" stroke-dashoffset="-371.84" transform="rotate(-90 132 125)"/>
+  <circle cx="132" cy="125" r="66" fill="none" stroke="#3987e5" stroke-width="22" stroke-dasharray="97.89 414.69" stroke-dashoffset="-0.00" transform="rotate(-90 132 125)"/>
+  <circle cx="132" cy="125" r="66" fill="none" stroke="#d95926" stroke-width="22" stroke-dasharray="87.65 414.69" stroke-dashoffset="-100.89" transform="rotate(-90 132 125)"/>
+  <circle cx="132" cy="125" r="66" fill="none" stroke="#6E7681" stroke-width="22" stroke-dasharray="32.66 414.69" stroke-dashoffset="-191.54" transform="rotate(-90 132 125)"/>
+  <circle cx="132" cy="125" r="66" fill="none" stroke="#c98500" stroke-width="22" stroke-dasharray="58.64 414.69" stroke-dashoffset="-227.20" transform="rotate(-90 132 125)"/>
+  <circle cx="132" cy="125" r="66" fill="none" stroke="#9085e9" stroke-width="22" stroke-dasharray="80.21 414.69" stroke-dashoffset="-288.84" transform="rotate(-90 132 125)"/>
+  <circle cx="132" cy="125" r="66" fill="none" stroke="#199e70" stroke-width="22" stroke-dasharray="39.64 414.69" stroke-dashoffset="-372.05" transform="rotate(-90 132 125)"/>
   <text class="lead" x="132" y="114">Go</text>
-  <text class="share" x="132" y="132">24.5%</text>
+  <text class="share" x="132" y="132">24.3%</text>
   <text class="of" x="132" y="148">of my code</text>
 
   <rect x="272" y="32" width="12" height="12" rx="3" fill="#3987e5"/>
   <text class="name" x="294" y="42">Go</text>
-  <text class="pct" x="452" y="42">24.5%</text>
+  <text class="pct" x="452" y="42">24.3%</text>
   <text class="desc" x="470" y="42">Backend, single-binary services</text>
   <rect x="272" y="64" width="12" height="12" rx="3" fill="#d95926"/>
   <text class="name" x="294" y="74">TypeScript</text>
-  <text class="pct" x="452" y="74">22.0%</text>
+  <text class="pct" x="452" y="74">21.9%</text>
   <text class="desc" x="470" y="74">Next.js, React, Node.js</text>
   <rect x="272" y="96" width="12" height="12" rx="3" fill="#6E7681"/>
   <text class="name" x="294" y="106">Others</text>
@@ -40,11 +40,11 @@
   <text class="desc" x="470" y="138">Android, JVM services</text>
   <rect x="272" y="160" width="12" height="12" rx="3" fill="#9085e9"/>
   <text class="name" x="294" y="170">Swift</text>
-  <text class="pct" x="452" y="170">19.7%</text>
+  <text class="pct" x="452" y="170">20.1%</text>
   <text class="desc" x="470" y="170">iOS, SwiftUI, macOS</text>
   <rect x="272" y="192" width="12" height="12" rx="3" fill="#199e70"/>
   <text class="name" x="294" y="202">Python</text>
   <text class="pct" x="452" y="202">10.3%</text>
   <text class="desc" x="470" y="202">AI/ML, FastAPI, Django</text>
-  <text class="foot" x="272" y="230">auto-updated 2026-11-19 · 9.2 MB across 26 public repos, forks excluded</text>
+  <text class="foot" x="272" y="230">auto-updated 2026-11-20 · 9.3 MB across 26 public repos, forks excluded</text>
 </svg>
